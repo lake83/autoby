@@ -13,7 +13,9 @@ app\assets\AdminAsset::register($this);
     'items' => [
         ['label' => 'Пользователи', 'url' => ['/admin/user/index'], 'icon' => 'users'],
         ['label' => 'Новости', 'url' => ['/admin/news/index'], 'icon' => 'book'],
-        ['label' => 'Каталог', 'url' => ['/admin/catalog/index'], 'icon' => 'table']
+        ['label' => 'Каталог', 'url' => ['/admin/catalog/index'], 'icon' => 'table'],
+        ['label' => 'Характеристики', 'url' => ['/admin/specifications/index'], 'icon' => 'list-ul'],
+        ['label' => 'Медиабиблиотека', 'url' => ['/admin/media/index'], 'icon' => 'window-restore']
     ]
 ]);	
 ?>

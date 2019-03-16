@@ -32,10 +32,11 @@ class UpdateMultiple extends \yii\base\Action
                 return $this->controller->redirect($this->redirect);
             }
         }
-        return $this->controller->render($this->view, [
+        $data = [
             'model' => $model,
             'models' => (empty($models)) ? [new $modelsClass] : $models
-        ]);
+        ];
+        return $this->partial ? $this->controller->renderPartial($this->view, $data) : $this->controller->render($this->view, $data);
     }
 } 
 ?>

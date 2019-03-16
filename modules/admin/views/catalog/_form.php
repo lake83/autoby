@@ -13,6 +13,8 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->hint('Генерируется из названия.') ?>
     
+    <?= $form->field($model, 'image')->widget(\app\components\FilemanagerInput::className()) ?>
+    
     <?= $form->field($model, 'is_active')->checkbox() ?>
 
     <div class="box-footer">

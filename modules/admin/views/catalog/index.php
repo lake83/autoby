@@ -35,10 +35,13 @@ echo NestedTreeGrid::widget([
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{add}{update}{delete}',
+            'template' => '{add}{specifications}{update}{delete}',
             'buttons' => [
                 'add' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, ['title' => 'Добавить']);
+                },
+                'specifications' => function ($url, $model, $key) {
+                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span>', $url, ['title' => 'Характеристики', 'data-pjax' => 0]) : '';
                 }
             ]
         ]

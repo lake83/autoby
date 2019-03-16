@@ -19,6 +19,7 @@ use yii\helpers\Url;
  * @property integer $depth
  * @property string $name
  * @property string $slug
+ * @property string $image
  * @property integer $is_active
  */
 class Catalog extends \yii\db\ActiveRecord
@@ -71,6 +72,7 @@ class Catalog extends \yii\db\ActiveRecord
         return [
             ['name', 'required'],
             [['lft', 'is_active', 'rgt', 'depth'], 'integer'],
+            ['image', 'string', 'max' => 100],
             [['name', 'slug'], 'string', 'max' => 255]
         ];
     }
@@ -84,6 +86,7 @@ class Catalog extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'slug' => 'Алиас',
+            'image' => 'Изображение',
             'is_active' => 'Активно'
         ];
     }
