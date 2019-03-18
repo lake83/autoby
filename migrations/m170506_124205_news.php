@@ -24,6 +24,6 @@ class m170506_124205_news extends Migration
 
     public function down()
     {
-        $this->dropTable('materials');
+        $this->dropTable('news');
     }
 }

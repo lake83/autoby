@@ -28,7 +28,10 @@
         "creocoder/yii2-nested-sets": "^0.9.0",
         "dkhlystov/yii2-treegrid": "^0.1.7",
         "wbraganca/yii2-dynamicform": "^2.0",
-        "2amigos/yii2-multi-select-widget": "^1.0"
+        "2amigos/yii2-multi-select-widget": "^1.0",
+        "kartik-v/yii2-sortable-input": "^1.2",
+        "kartik-v/yii2-widget-depdrop": "^1.0",
+        "yiisoft/yii2-imagine": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

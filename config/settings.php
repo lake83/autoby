@@ -25,7 +25,7 @@ class settings implements BootstrapInterface
             $settings = ArrayHelper::map($this->db->createCommand("SELECT name, value FROM settings")->queryAll(), 'name', 'value');
             Yii::$app->cache->set('settings', $settings, 0, new \yii\caching\TagDependency(['tags' => 'settings']));           
         }
-        Yii::$app->params = $settings;
+        Yii::$app->params = $settings + require(__DIR__ . '/params.php');
         
         if (!$app instanceof \yii\console\Application) {
             // Установка темы в админке

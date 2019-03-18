@@ -2,37 +2,28 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Catalog;
+use app\models\Specifications;
 
 /**
- * CatalogSearch represents the model behind the search form about `app\models\Catalog`.
+ * SpecificationsSearch represents the model behind the search form of `app\models\Specifications`.
  */
-class CatalogSearch extends Catalog
+class SpecificationsSearch extends Specifications
 {
     /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [];
-    }
-    
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'lft', 'rgt', 'depth', 'is_active'], 'integer'],
-            [['name', 'slug', 'year_from', 'year_to'], 'safe']
+            [['id', 'is_options', 'is_active'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -49,11 +40,12 @@ class CatalogSearch extends Catalog
      */
     public function search($params)
     {
-        $query = Catalog::find();
+        $query = Specifications::find();
+
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false
         ]);
 
         $this->load($params);
@@ -67,16 +59,11 @@ class CatalogSearch extends Catalog
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'lft' => $this->lft,
-            'rgt' => $this->rgt,
-            'depth' => $this->depth,
-            'is_active' => $this->is_active,
+            'is_options' => $this->is_options,
+            'is_active' => $this->is_active
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'year_from', $this->year_from])
-            ->andFilterWhere(['like', 'year_to', $this->year_to]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

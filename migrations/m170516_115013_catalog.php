@@ -14,6 +14,8 @@ class m170516_115013_catalog extends Migration
             'name' => $this->string()->notNull(),
             'slug' => $this->string()->notNull(),
             'image' => $this->string(100)->notNull(),
+            'year_from' => $this->string(4)->notNull(),
+            'year_to' => $this->string(4)->notNull(),
             'is_active' => $this->boolean()->defaultValue(1),
         ], $this->db->driverName === 'mysql' ? 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB' : null);
     }

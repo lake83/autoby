@@ -20,6 +20,8 @@ use yii\helpers\Url;
  * @property string $name
  * @property string $slug
  * @property string $image
+ * @property string $year_from
+ * @property string $year_to
  * @property integer $is_active
  */
 class Catalog extends \yii\db\ActiveRecord
@@ -73,6 +75,7 @@ class Catalog extends \yii\db\ActiveRecord
             ['name', 'required'],
             [['lft', 'is_active', 'rgt', 'depth'], 'integer'],
             ['image', 'string', 'max' => 100],
+            [['year_from', 'year_to'], 'string', 'max' => 4],
             [['name', 'slug'], 'string', 'max' => 255]
         ];
     }
@@ -87,6 +90,8 @@ class Catalog extends \yii\db\ActiveRecord
             'name' => 'Название',
             'slug' => 'Алиас',
             'image' => 'Изображение',
+            'year_from' => 'Год начала выпуска',
+            'year_to' => 'Год окончания выпуска',
             'is_active' => 'Активно'
         ];
     }
@@ -120,11 +125,24 @@ class Catalog extends \yii\db\ActiveRecord
     {
         $db = Yii::$app->db;
         return $db->cache(function ($db) {
-            return ArrayHelper::map(self::find()->select('id,name,depth')->where(['is_active' => 1])->andWhere('depth>0')->OrderBy('lft ASC')->asArray()->all(),
+            return ArrayHelper::map(self::find()->select(['id', 'name', 'depth'])->where(['is_active' => 1])->andWhere('depth>0')->orderBy('lft ASC')->asArray()->all(),
                 'id', function($model) {
-                          return ($model['depth'] > 1 ? str_repeat('---', $model['depth']-1) : '') . $model['name'];
+                          return ($model['depth'] > 1 ? str_repeat('---', $model['depth'] - 1) : '') . $model['name'];
                       }
                 );
+        }, 0, new TagDependency(['tags' => 'catalog']));
+    }
+    
+    /**
+     * Возвращает список марок автомобилей
+     * 
+     * @return array
+     */
+    public static function getBrands()
+    {
+        $db = Yii::$app->db;
+        return $db->cache(function ($db) {
+            return ArrayHelper::map(self::find()->select(['id', 'name'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name');
         }, 0, new TagDependency(['tags' => 'catalog']));
     }
 }

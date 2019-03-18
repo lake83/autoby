@@ -4,22 +4,15 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Catalog */
+/* @var $model app\models\City */
 /* @var $form yii\bootstrap\ActiveForm */
 
 $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
+    <?= $form->field($model, 'region_id')->hiddenInput(['value' => Yii::$app->request->get('region_id')])->label(false) ?>
+
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->hint('Генерируется из названия.') ?>
-    
-    <?= $form->field($model, 'image')->widget(\app\components\FilemanagerInput::className()) ?>
-    
-    <?php if ($model->depth > 1) {
-        echo $form->field($model, 'year_from')->textInput(['maxlength' => true]);
-        echo $form->field($model, 'year_to')->textInput(['maxlength' => true]);
-    } ?>
-    
     <?= $form->field($model, 'is_active')->checkbox() ?>
 
     <div class="box-footer">
