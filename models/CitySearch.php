@@ -40,7 +40,7 @@ class CitySearch extends City
      */
     public function search($params)
     {
-        $query = City::find();
+        $query = City::find()->where(['region_id' => $params['region_id']]);
 
         // add conditions that should always apply here
 
