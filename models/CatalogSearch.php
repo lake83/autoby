@@ -49,22 +49,24 @@ class CatalogSearch extends Catalog
      */
     public function search($params)
     {
-        $query = Catalog::find();
-
+        if (isset($params['brand'])) {
+            $brand = Catalog::findOne(['slug' => $params['brand']]);
+            $query = $brand->children();
+        } else {
+            $query = Catalog::find();
+            if (Catalog::find()->where(['slug' => 'catalog'])->exists()) {
+                $query->where(['depth' => 1])->andWhere(['!=', 'slug', 'catalog'])->orderBy('lft ASC')->indexBy('id');
+            }
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => false
+            'pagination' => isset($params['brand']) ? false : ['pageSize' => 20]
         ]);
-
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
-
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'lft' => $this->lft,
@@ -72,7 +74,6 @@ class CatalogSearch extends Catalog
             'depth' => $this->depth,
             'is_active' => $this->is_active,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
             ->andFilterWhere(['like', 'year_from', $this->year_from])

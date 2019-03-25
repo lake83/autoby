@@ -4,6 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\models\Catalog;
+use app\models\CatalogSearch;
 use app\models\Specifications;
 use app\models\CatalogSpecification;
 use yii\helpers\ArrayHelper;
@@ -15,8 +16,53 @@ use yii\web\NotFoundHttpException;
  */
 class CatalogController extends AdminController
 {
-    public $modelClass = 'app\models\Catalog';
-    public $searchModelClass = 'app\models\CatalogSearch';
+    public function actions()
+    {
+        $redirect = ($brand = Yii::$app->request->get('brand')) ? ['models', 'brand' => $brand] : ['index'];
+        
+        return [
+            'index' => [
+                'class' => 'app\modules\admin\controllers\actions\Index',
+                'search' => 'app\models\CatalogSearch'
+            ],
+            'create' => [
+                'class' => 'app\modules\admin\controllers\actions\Create',
+                'model' => 'app\models\Catalog',
+                'redirect' => $redirect
+            ],
+            'update' => [
+                'class' => 'app\modules\admin\controllers\actions\Update',
+                'model' => 'app\models\Catalog',
+                'redirect' => $redirect
+            ],
+            'delete' => [
+                'class' => 'app\modules\admin\controllers\actions\Delete',
+                'model' => 'app\models\Catalog',
+                'redirect' => $redirect
+            ],
+            'toggle' => [
+                'class' => \pheme\grid\actions\ToggleAction::className(),
+                'modelClass' => 'app\models\Catalog',
+                'attribute' => 'is_active'
+            ]
+        ];
+    }
+    
+    /**
+     * Вывод подкатегорий марки авто
+     * 
+     * @return string
+     */
+    public function actionModels($brand)
+    {
+        $searchModel = new CatalogSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('models', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
     
     /**
      * Создание первого элемента каталога если его нет.
@@ -35,17 +81,17 @@ class CatalogController extends AdminController
     }
     
     /**
-     * Добавить элемент после указаного.
+     * Добавить марку автомобиля.
      * 
      * @param integer $id ID элемента после которого добавится новый
      * @return string
      */
-    public function actionAdd($id)
+    public function actionAddBrand($id)
     {
         $model = new Catalog;
         
         if ($model->load(Yii::$app->request->post())) {
-            if (($catalog = Catalog::findOne($id)) && $model->appendTo($catalog)) {
+            if (($catalog = Catalog::findOne($id)) && $model->insertAfter($catalog)) {
                 Yii::$app->session->setFlash('success', 'Запись добавлена.');
                 return $this->redirect(['index']);
             }
@@ -54,11 +100,35 @@ class CatalogController extends AdminController
     }
     
     /**
-     * Перемещение элементов каталога.
+     * Добавить элемент после указаного.
      * 
+     * @param integer $id ID элемента после которого добавится новый
+     * @param string $brand
      * @return string
      */
-    public function actionMove($id, $target, $position)
+    public function actionAdd($id, $brand)
+    {
+        $model = new Catalog;
+        
+        if ($model->load(Yii::$app->request->post())) {
+            if (($catalog = Catalog::findOne($id)) && $model->appendTo($catalog)) {
+                Yii::$app->session->setFlash('success', 'Запись добавлена.');
+                return $this->redirect(['models', 'brand' => $brand]);
+            }
+        }
+        return $this->render('create', ['model' => $model]);
+    }
+    
+    /**
+     * Перемещение элементов каталога.
+     * 
+     * @param integer $id
+     * @param integer $target
+     * @param integer $position
+     * @param boolean $index
+     * @return string
+     */
+    public function actionMove($id, $target, $position, $index = false)
     {
         $model = Catalog::findOne($id);
 
@@ -77,15 +147,19 @@ class CatalogController extends AdminController
                 $model->insertAfter($t);
                 break;
         }
+        if ($index) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
     
     /**
      * Характеристики элемента каталога
      * 
      * @param integer $id
+     * @param string $brand
      * @return string
      */
-    public function actionSpecifications($id)
+    public function actionSpecifications($id, $brand = '')
     {
         if (($title = Catalog::find()->select(['name'])->where(['id' => $id, 'is_active' => 1])->scalar()) && 
             ($specifications = Specifications::find()->select(['id', 'name', 'is_options'])->where(['is_active' => 1])->with(['specificationOptions'])->indexBy('id')->all())
@@ -118,7 +192,7 @@ class CatalogController extends AdminController
                 }
             }
             Yii::$app->session->setFlash('success', Yii::t('app', 'Изменения сохранены.'));
-            return $this->redirect(['index']);
+            return $this->redirect($brand ? ['models', 'brand' => $brand] : ['index']);
         }
         return $this->render('specifications', ['model' => $model, 'specifications' => $specifications, 'title' => $title]);
     }

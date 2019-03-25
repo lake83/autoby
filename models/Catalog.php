@@ -145,4 +145,24 @@ class Catalog extends \yii\db\ActiveRecord
             return ArrayHelper::map(self::find()->select(['id', 'name'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name');
         }, 0, new TagDependency(['tags' => 'catalog']));
     }
+    
+    /**
+     * Возвращает ID следующего в БД элемента первого уровня
+     * 
+     * @return integer
+     */
+    public function getNext()
+    {
+        return $this->find()->select(['id'])->where(['>', 'id', $this->id])->orderBy('id asc')->andWhere(['depth' => 1])->scalar();
+    }
+
+    /**
+     * Возвращает ID предыдущего в БД элемента первого уровня
+     * 
+     * @return integer
+     */
+    public function getPrev()
+    {
+        return $this->find()->select(['id'])->where(['<', 'id', $this->id])->orderBy('id desc')->andWhere(['depth' => 1])->scalar();
+    }
 }

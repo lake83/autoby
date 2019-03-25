@@ -1,15 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use dkhlystov\widgets\NestedTreeGrid;
+use yii\helpers\Url;
+use kartik\grid\GridView;
 use app\components\SiteHelper;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CatalogSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->registerCss('#catalog_items td span {padding-right:10px;}');
 
 $this->title = 'Каталог';
 ?>
@@ -20,32 +19,59 @@ $this->title = 'Каталог';
 } ?>
 </p>
 
-<?php Pjax::begin(['id' => 'catalog_items', 'timeout' => false]);
-
-echo NestedTreeGrid::widget([
-    'id' => 'catalog-tree',
+<?= GridView::widget([
+    'layout' => '{items}{pager}',
     'dataProvider' => $dataProvider,
-    'lazyLoad' => false,
-    'moveAction' => ['move'],
-    'showRoots' => $dataProvider->count == 1 ? true : false,
+    'pjax' => true,
+    'export' => false,
+    'filterModel' => $searchModel,
     'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+        
         'name',
         'slug',
         SiteHelper::is_active($searchModel),
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{add}{specifications}{update}{delete}',
+            'template' => '{models}{add-brand}{specifications}{up}{down}{update}{delete}',
             'buttons' => [
-                'add' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, ['title' => 'Добавить']);
+                'models' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-list-alt"></span> ', ['models', 'brand' => $model->slug], ['title' => 'Модели', 'data-pjax' => 0]);
+                },
+                'add-brand' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-plus"></span> ', $url, ['title' => 'Добавить', 'data-pjax' => 0]);
+                },
+                'up' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-arrow-up"></span> ', $url, ['title' => 'Вверх', 'data-pjax' => 0]);
+                },
+                'down' => function ($url, $model, $key) {
+                    return Html::a('<span class="glyphicon glyphicon-arrow-down"></span> ', $url, ['title' => 'Вниз', 'data-pjax' => 0]);
                 },
                 'specifications' => function ($url, $model, $key) {
-                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span>', $url, ['title' => 'Характеристики', 'data-pjax' => 0]) : '';
+                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span> ', $url, ['title' => 'Характеристики', 'data-pjax' => 0]) : '';
+                }
+            ],
+            'urlCreator' => function ($action, $model, $key, $index) use ($dataProvider) {
+                $keys = array_keys($dataProvider->models);
+                if ($action === 'up') {
+                    return Url::to(['move', 'id' => $key, 'target' => $index > 0 ? $keys[$index-1] : $model->prev, 'position' => 0, 'index' => true]);
+                } elseif ($action === 'down') {
+                    return Url::to(['move', 'id' => $key, 'target' => $index !== 19 ? $keys[$index+1] : $model->next, 'position' => 2, 'index' => true]);
+                } else {
+                    return Url::to([$action, 'id' => $model->id]);
+                }
+            },
+            'visibleButtons' => [
+                'up' => function ($model, $key, $index) use ($dataProvider) {
+                    return !($index == 0 && $dataProvider->pagination->page == 0);
+                },
+                'down' => function ($model, $key, $index) use ($dataProvider) {
+                    return !($index == count($dataProvider->models)-1 && $dataProvider->pagination->page == $dataProvider->pagination->pageCount-1);
                 }
             ]
         ]
     ]
 ]);
 
-Pjax::end(); ?>
+?>
