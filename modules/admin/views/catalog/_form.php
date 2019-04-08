@@ -9,11 +9,15 @@ use yii\bootstrap\ActiveForm;
 
 $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
+    <?php if ($model->depth == 1): ?>
+    
+    <?= $form->field($model, 'image')->widget(\app\components\FilemanagerInput::className()) ?>
+    
+    <?php endif; ?>
+    
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'slug')->textInput(['maxlength' => true])->hint('Генерируется из названия.') ?>
-    
-    <?= $form->field($model, 'image')->widget(\app\components\FilemanagerInput::className()) ?>
     
     <?php if ($model->depth > 1) {
         echo $form->field($model, 'year_from')->textInput(['maxlength' => true]);

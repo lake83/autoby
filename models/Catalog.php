@@ -19,13 +19,14 @@ use yii\helpers\Url;
  * @property integer $depth
  * @property string $name
  * @property string $slug
- * @property string $image
  * @property string $year_from
  * @property string $year_to
  * @property integer $is_active
  */
 class Catalog extends \yii\db\ActiveRecord
 {
+    public $image;
+    
     /**
      * @inheritdoc
      */
@@ -74,9 +75,8 @@ class Catalog extends \yii\db\ActiveRecord
         return [
             ['name', 'required'],
             [['lft', 'is_active', 'rgt', 'depth'], 'integer'],
-            ['image', 'string', 'max' => 100],
             [['year_from', 'year_to'], 'string', 'max' => 4],
-            [['name', 'slug'], 'string', 'max' => 255]
+            [['name', 'slug', 'image'], 'string', 'max' => 255]
         ];
     }
 
@@ -89,9 +89,9 @@ class Catalog extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'slug' => 'Алиас',
-            'image' => 'Изображение',
             'year_from' => 'Год начала выпуска',
             'year_to' => 'Год окончания выпуска',
+            'image' => 'Логотип',
             'is_active' => 'Активно'
         ];
     }
@@ -103,7 +103,29 @@ class Catalog extends \yii\db\ActiveRecord
     {
         TagDependency::invalidate(Yii::$app->cache, 'catalog');
         
+        if (!empty($this->image)) {
+            if ($this->logo !== null && $this->logo->image !== $this->image) {
+                $this->logo->image = $this->image;
+                $this->logo->save();                
+            } else {
+                $model = new CatalogLogo;
+                $model->catalog_id = $this->id;                
+                $model->image = $this->image;
+                $model->save();                
+            }
+        }
         return parent::afterSave($insert, $changedAttributes);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        if ($this->depth == 1 && $this->logo !== null) {
+            $this->image = $this->logo->image;
+        }
+        parent::afterFind();
     }
     
     /**
@@ -164,5 +186,21 @@ class Catalog extends \yii\db\ActiveRecord
     public function getPrev()
     {
         return $this->find()->select(['id'])->where(['<', 'id', $this->id])->orderBy('id desc')->andWhere(['depth' => 1])->scalar();
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLogo()
+    {
+        return $this->hasOne(CatalogLogo::className(), ['catalog_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getModifications()
+    {
+        return $this->hasMany(Modifications::className(), ['catalog_id' => 'id']);
     }
 }

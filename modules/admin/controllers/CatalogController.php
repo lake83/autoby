@@ -5,8 +5,6 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\Catalog;
 use app\models\CatalogSearch;
-use app\models\Specifications;
-use app\models\CatalogSpecification;
 use yii\helpers\ArrayHelper;
 use yii\base\DynamicModel;
 use yii\web\NotFoundHttpException;
@@ -150,50 +148,5 @@ class CatalogController extends AdminController
         if ($index) {
             return $this->redirect(Yii::$app->request->referrer);
         }
-    }
-    
-    /**
-     * Характеристики элемента каталога
-     * 
-     * @param integer $id
-     * @param string $brand
-     * @return string
-     */
-    public function actionSpecifications($id, $brand = '')
-    {
-        if (($title = Catalog::find()->select(['name'])->where(['id' => $id, 'is_active' => 1])->scalar()) && 
-            ($specifications = Specifications::find()->select(['id', 'name', 'is_options'])->where(['is_active' => 1])->with(['specificationOptions'])->indexBy('id')->all())
-        ) {
-            $values = ArrayHelper::map(CatalogSpecification::find()->select(['specification_id', 'value'])->where(['catalog_id' => $id])->all(), 'specification_id', 'value');
-            foreach ($specifications as $specification) {
-                $fields['field' . $specification->id] = isset($values[$specification->id]) ? $values[$specification->id] : '';
-            }
-            $model = new DynamicModel($fields);
-            $model->addRule(array_keys($fields), 'safe');
-        } else {
-            throw new NotFoundHttpException('Страница не найдена.');
-        }
-        if ($model->load(Yii::$app->request->post())) {
-            foreach ($model->attributes as $key => $attribute) {
-                $specification_id = str_replace('field', '', $key);
-                if ($opt = CatalogSpecification::findOne(['catalog_id' => $id, 'specification_id' => $specification_id])) {
-                    if (!empty($attribute)) {
-                        $opt->value = $attribute;
-                        $opt->save();
-                    } else {
-                        $opt->delete();
-                    }
-                } else {
-                    $opt = new CatalogSpecification;
-                    $opt->catalog_id = $id;
-                    $opt->specification_id = $specification_id;
-                    $opt->value = $attribute;
-                    $opt->save();
-                }
-            }
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Изменения сохранены.'));
-            return $this->redirect($brand ? ['models', 'brand' => $brand] : ['index']);
-        }
-        return $this->render('specifications', ['model' => $model, 'specifications' => $specifications, 'title' => $title]);
     }
 }

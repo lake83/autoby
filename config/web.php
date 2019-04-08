@@ -44,6 +44,13 @@ $config = [
             ]
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'msdb' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'sqlsrv:Server=178.172.173.223;Database=rosauto_autoby',
+            'username' => 'rosauto_user',
+            'password' => '1q2w3e4r',
+            'charset' => 'utf8'
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

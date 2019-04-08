@@ -54,7 +54,7 @@ class CatalogSearch extends Catalog
             $query = $brand->children();
         } else {
             $query = Catalog::find();
-            if (Catalog::find()->where(['slug' => 'catalog'])->exists()) {
+            if (Catalog::find()->count() > 1) {
                 $query->where(['depth' => 1])->andWhere(['!=', 'slug', 'catalog'])->orderBy('lft ASC')->indexBy('id');
             }
         }

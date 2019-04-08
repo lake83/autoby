@@ -7,20 +7,34 @@ namespace app\modules\admin\controllers;
  */
 class SpecificationsController extends AdminController
 {
-    use actions\MultipleTraite;
-    
-    public $modelClass = 'app\models\Specifications';
-    public $searchModelClass = 'app\models\SpecificationsSearch';
-    
     public function actions()
     {
-        return parent::actions() + [
-            'options' => [
-                'class' => 'app\modules\admin\controllers\actions\UpdateMultiple',
+        $redirect = ['index', 'modification_id' => \Yii::$app->request->get('modification_id')];
+        
+        return [
+            'index' => [
+                'class' => 'app\modules\admin\controllers\actions\Index',
+                'search' => 'app\models\SpecificationsSearch'
+            ],
+            'create' => [
+                'class' => 'app\modules\admin\controllers\actions\Create',
                 'model' => 'app\models\Specifications',
-                'models' => 'app\models\SpecificationOptions',
-                'owner' => 'specification_id',
-                'view' => 'options'
+                'redirect' => $redirect
+            ],
+            'update' => [
+                'class' => 'app\modules\admin\controllers\actions\Update',
+                'model' => 'app\models\Specifications',
+                'redirect' => $redirect
+            ],
+            'delete' => [
+                'class' => 'app\modules\admin\controllers\actions\Delete',
+                'model' => 'app\models\Specifications',
+                'redirect' => $redirect
+            ],
+            'toggle' => [
+                'class' => \pheme\grid\actions\ToggleAction::className(),
+                'modelClass' => 'app\models\Specifications',
+                'attribute' => 'is_active'
             ]
         ];
     }

@@ -3,7 +3,10 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+
+//print_r(Yii::$app->msdb->createCommand('SELECT * FROM dbo.Site_Car')->queryOne());
 ?>
+
 <div class="site-index">
 
     <div class="jumbotron">

@@ -26,15 +26,15 @@ echo NestedTreeGrid::widget([
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{add}{specifications}{update}{delete}',
+            'template' => '{modifications}{add}{update}{delete}',
             'buttons' => [
+                'modifications' => function ($url, $model, $key) {
+                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span> ',
+                        ['modifications/index', 'catalog_id' => $model->id], ['title' => 'Модификации', 'data-pjax' => 0]) : '';
+                },
                 'add' => function ($url, $model, $key) use ($brand) {
                     return Html::a('<span class="glyphicon glyphicon-plus"></span> ', ['add', 'id' => $model->id, 'brand' => $brand],
                         ['title' => 'Добавить', 'data-pjax' => 0]);
-                },
-                'specifications' => function ($url, $model, $key) use ($brand) {
-                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span> ', ['specifications', 'id' => $model->id, 'brand' => $brand],
-                        ['title' => 'Характеристики', 'data-pjax' => 0]) : '';
                 },
                 'update' => function ($url, $model, $key) use ($brand) {
                     return Html::a('<span class="glyphicon glyphicon-pencil"></span> ', ['update', 'id' => $model->id, 'brand' => $brand],

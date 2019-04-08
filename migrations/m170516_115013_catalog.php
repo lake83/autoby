@@ -13,7 +13,6 @@ class m170516_115013_catalog extends Migration
             'depth' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
             'slug' => $this->string()->notNull(),
-            'image' => $this->string(100)->notNull(),
             'year_from' => $this->string(4)->notNull(),
             'year_to' => $this->string(4)->notNull(),
             'is_active' => $this->boolean()->defaultValue(1),

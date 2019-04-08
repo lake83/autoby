@@ -34,7 +34,7 @@ $this->title = 'Каталог';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{models}{add-brand}{specifications}{up}{down}{update}{delete}',
+            'template' => '{models}{add-brand}{up}{down}{update}{delete}',
             'buttons' => [
                 'models' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-list-alt"></span> ', ['models', 'brand' => $model->slug], ['title' => 'Модели', 'data-pjax' => 0]);
@@ -47,9 +47,6 @@ $this->title = 'Каталог';
                 },
                 'down' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-arrow-down"></span> ', $url, ['title' => 'Вниз', 'data-pjax' => 0]);
-                },
-                'specifications' => function ($url, $model, $key) {
-                    return $model->depth == 3 ? Html::a('<span class="glyphicon glyphicon-th-list"></span> ', $url, ['title' => 'Характеристики', 'data-pjax' => 0]) : '';
                 }
             ],
             'urlCreator' => function ($action, $model, $key, $index) use ($dataProvider) {

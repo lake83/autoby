@@ -31,7 +31,8 @@
         "2amigos/yii2-multi-select-widget": "^1.0",
         "kartik-v/yii2-sortable-input": "^1.2",
         "kartik-v/yii2-widget-depdrop": "^1.0",
-        "yiisoft/yii2-imagine": "^2.1"
+        "yiisoft/yii2-imagine": "^2.1",
+        "igogo5yo/yii2-upload-from-url": "^1.4"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
