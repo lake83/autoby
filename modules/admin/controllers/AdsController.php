@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers;
 use Yii;
 use app\models\City;
 use app\models\Catalog;
+use app\models\Modifications;
 use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
@@ -49,17 +50,22 @@ class AdsController extends AdminController
     {
         if ($this->checkData($_POST['depdrop_parents'][1]) &&
             ($model = Catalog::find()->select(['year_from', 'year_to'])->where(['id' => $_POST['depdrop_parents'][1], 'is_active' => 1])->asArray()->one()) &&
-            !empty($model['year_from']) && !empty($model['year_to']) && $model['year_from'] <= $model['year_to']
+            !empty($model['year_from']) && !empty($model['year_to'])
         ) {
-            if ($model['year_from'] == $model['year_to']) {
-                return $this->getList([['id' => $model['year_from'], 'name' => $model['year_to']]]);
-            } else {
-                $years = [['id' => $model['year_from'], 'name' => $model['year_from']]];
-                do {
-                    $model['year_from']++;
-                    $years[] = ['id' => $model['year_from'], 'name' => $model['year_from']];
-                } while ($model['year_from'] < $model['year_to']);
-                return $this->getList($years);
+            if ($model['year_to'] == 'н.в.') {
+                $model['year_to'] = date('Y');
+            }
+            if ($model['year_from'] <= $model['year_to']) {
+                if ($model['year_from'] == $model['year_to']) {
+                    return $this->getList([['id' => $model['year_from'], 'name' => $model['year_to']]]);
+                } else {
+                    $years = [['id' => $model['year_from'], 'name' => $model['year_from']]];
+                    do {
+                        $model['year_from']++;
+                        $years[] = ['id' => $model['year_from'], 'name' => $model['year_from']];
+                    } while ($model['year_from'] < $model['year_to']);
+                    return $this->getList($years);
+                }
             }
         }
     }
@@ -79,6 +85,25 @@ class AdsController extends AdminController
                 ->andWhere(['<=', 'year_from', $_POST['depdrop_parents'][2]])
                 ->andWhere(['>=', 'year_to', $_POST['depdrop_parents'][2]])
                 ->asArray()->all());
+        }
+    }
+    
+    /**
+     * Возвращает данные для зависимого списка тип кузова
+     * 
+     * @return string
+     */
+    public function actionType()
+    {
+        if ($this->checkData($_POST['depdrop_parents'][3]) &&
+           ($model = Modifications::find()->select(['name'])->where(['catalog_id' => $_POST['depdrop_parents'][3], 'is_active' => 1])->column())
+        ) {
+            $data = [];
+            $type = Yii::$app->params['car_body_type']['options'];
+            foreach (array_unique($model) as $one) {
+                $data[] = ['id' => $one, 'name' => $type[$one]];
+            }
+            return $this->getList($data);
         }
     }
     

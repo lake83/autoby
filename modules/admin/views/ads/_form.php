@@ -57,8 +57,17 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'url' => Url::to(['car'])
         ]
     ]) ?>
-
-    <?= $form->field($model, 'type')->dropDownList(Yii::$app->params['car_body_type']['options'], $listOptions) ?>
+    
+    <?= $form->field($model, 'type')->widget(DepDrop::classname(), [
+        'options' => ['id' => 'type'],
+        'data' => $model->isNewRecord ? [] : [$model->type => Yii::$app->params['car_body_type']['options'][$model->type]],
+        'pluginOptions' => [
+            'depends' => ['brand', 'auto_model', 'issue_year', 'catalog_id'],
+            'placeholder' => '- выбрать -',
+            'loading' => false,
+            'url' => Url::to(['type'])
+        ]
+    ]) ?>
 
     <?= $form->field($model, 'modification')->textInput(['maxlength' => true]) ?>
 
@@ -70,13 +79,13 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'engine_type')->dropDownList(Yii::$app->params['engine_type']['options'], $listOptions) ?>
+    <?= $form->field($model, 'engine_type')->dropDownList(Yii::$app->params['engine']['options'], $listOptions) ?>
 
     <?= $form->field($model, 'mileage')->textInput() ?>
 
     <?= $form->field($model, 'transmission')->dropDownList(Yii::$app->params['transmission']['options'], $listOptions) ?>
 
-    <?= $form->field($model, 'drive_type')->dropDownList(Yii::$app->params['drive_type']['options'], $listOptions) ?>
+    <?= $form->field($model, 'drive_type')->dropDownList(Yii::$app->params['drive']['options'], $listOptions) ?>
 
     <?= $form->field($model, 'color')->dropDownList(Yii::$app->params['color']['options'], $listOptions) ?>
 

@@ -12,7 +12,6 @@ use app\models\Catalog;
 $this->title = 'Объявления';
 
 $listOptions = ['class' => 'form-control', 'prompt' => '- выбрать -'];
-$catalog = Catalog::getAll();
 $type = Yii::$app->params['car_body_type']['options'];
 ?>
 
@@ -37,9 +36,9 @@ $type = Yii::$app->params['car_body_type']['options'];
             ],
             [
                 'attribute' => 'catalog_id',
-                'filter' => Html::activeDropDownList($searchModel, 'catalog_id', $catalog, $listOptions),
-                'value' => function ($model, $index, $widget) use ($catalog) {
-                    return str_replace('-', '', $catalog[$model->catalog_id]);
+                'filter' => Html::activeDropDownList($searchModel, 'catalog_id', Catalog::getBrands(), $listOptions),
+                'value' => function ($model, $index, $widget) {
+                    return Catalog::getCar($model->catalog_id);
                 }
             ],
             [

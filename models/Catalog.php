@@ -145,8 +145,7 @@ class Catalog extends \yii\db\ActiveRecord
      */
     public static function getAll()
     {
-        $db = Yii::$app->db;
-        return $db->cache(function ($db) {
+        return Yii::$app->cache->getOrSet('catalog_all', function(){
             return ArrayHelper::map(self::find()->select(['id', 'name', 'depth'])->where(['is_active' => 1])->andWhere('depth>0')->orderBy('lft ASC')->asArray()->all(),
                 'id', function($model) {
                           return ($model['depth'] > 1 ? str_repeat('---', $model['depth'] - 1) : '') . $model['name'];
@@ -162,10 +161,22 @@ class Catalog extends \yii\db\ActiveRecord
      */
     public static function getBrands()
     {
-        $db = Yii::$app->db;
-        return $db->cache(function ($db) {
+        return Yii::$app->cache->getOrSet('catalog_brands', function(){
             return ArrayHelper::map(self::find()->select(['id', 'name'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name');
         }, 0, new TagDependency(['tags' => 'catalog']));
+    }
+    
+    /**
+     * Возвращает спецификацию автомобиля
+     * 
+     * @param integer $id
+     * @return string
+     */
+    public static function getCar($id)
+    {
+        $model = self::findOne($id);
+        
+        return $model->parents(2)->select(['name'])->one()->name . '/' . $model->parents(1)->select(['name'])->one()->name . '/' . $model->name;
     }
     
     /**

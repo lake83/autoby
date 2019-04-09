@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Ads;
+use app\models\Catalog;
 
 /**
  * AdsSearch represents the model behind the search form of `app\models\Ads`.
@@ -43,9 +44,7 @@ class AdsSearch extends Ads
     public function search($params)
     {
         $query = Ads::find();
-
-        // add conditions that should always apply here
-
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query
         ]);
@@ -61,7 +60,6 @@ class AdsSearch extends Ads
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'catalog_id' => $this->catalog_id,
             'type' => $this->type,
             'condition' => $this->condition,
             'price' => $this->price,
@@ -76,7 +74,11 @@ class AdsSearch extends Ads
             'FROM_UNIXTIME(created_at, "%d.%m.%Y")' => $this->created_at,
             'FROM_UNIXTIME(updated_at, "%d.%m.%Y")' => $this->updated_at
         ]);
-
+        
+        if (!empty($this->catalog_id)) {
+            $brand = Catalog::findOne($this->catalog_id);
+            $query->andFilterWhere(['catalog_id' => $brand->children()->andWhere(['depth' => 3])->select(['id'])->column()]);     
+        }
         $query->andFilterWhere(['like', 'modification', $this->modification])
             ->andFilterWhere(['like', 'issue_year', $this->issue_year])
             ->andFilterWhere(['like', 'text', $this->text])
