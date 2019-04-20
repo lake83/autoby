@@ -54,7 +54,7 @@ class Region extends \yii\db\ActiveRecord
      */
     public function getCities()
     {
-        return $this->hasMany(City::className(), ['region_id' => 'id']);
+        return $this->hasMany(City::className(), ['region_id' => 'id'])->andWhere(['is_active' => 1]);
     }
     
     /**
@@ -78,15 +78,28 @@ class Region extends \yii\db\ActiveRecord
     }
     
     /**
-     * Возвращает список категорий
+     * Возвращает список областей
      * 
      * @return array
      */
     public static function getAll()
     {
-        $db = Yii::$app->db;
-        return $db->cache(function ($db) {
+        return Yii::$app->cache->getOrSet('regions', function () {
             return ArrayHelper::map(self::find()->select('id,name')->where(['is_active' => 1])->asArray()->all(), 'id', 'name');
+        }, 0, new TagDependency(['tags' => 'region']));
+    }
+    
+    /**
+     * Возвращает список областей с городами
+     * 
+     * @return array
+     */
+    public static function getAllWithCities()
+    {
+        return Yii::$app->cache->getOrSet('regions_cities', function () {
+            return ArrayHelper::map(self::find()->select('id,name')->where(['is_active' => 1])->all(), 'name', function($model) {
+                return ArrayHelper::map($model->cities, 'id', 'name');
+            });
         }, 0, new TagDependency(['tags' => 'region']));
     }
 }

@@ -42,10 +42,10 @@ $names = Yii::$app->params['car_body_type']['options'];
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{specifications}{update}{delete}',
+                'template' => '{specifications} {update} {delete}',
                 'buttons' => [
                     'specifications' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-th-list"></span> ', ['specifications/index', 'modification_id' => $model->id], ['title' => 'Характеристики', 'data-pjax' => 0]);
+                        return Html::a('<span class="glyphicon glyphicon-th-list"></span>', ['specifications/index', 'modification_id' => $model->id], ['title' => 'Характеристики', 'data-pjax' => 0]);
                     },
                     'update' => function ($url, $model, $key) use ($catalog_id){
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->id, 'catalog_id' => $catalog_id], ['title' => 'Редактировать', 'data-pjax' => 0]);

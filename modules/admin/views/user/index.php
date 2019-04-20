@@ -41,7 +41,7 @@ $this->title = 'Пользователи';
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{delete}',
+                'template' => '{update} {delete}',
                 'options' => ['width' => '50px']
             ]
         ]

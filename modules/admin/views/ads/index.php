@@ -61,7 +61,7 @@ $type = Yii::$app->params['car_body_type']['options'];
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{delete}',
+                'template' => '{update} {delete}',
                 'options' => ['width' => '50px']
             ]
         ]

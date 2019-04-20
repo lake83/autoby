@@ -27,7 +27,7 @@ $this->title = 'Области';
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{city}{update}{delete}',
+                'template' => '{city} {update} {delete}',
                 'buttons' => [
                     'city' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-th-list"></span>', ['city/index', 'region_id' => $model->id], ['title' => 'Города', 'data-pjax' => 0]);

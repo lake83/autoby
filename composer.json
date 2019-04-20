@@ -32,7 +32,10 @@
         "kartik-v/yii2-sortable-input": "^1.2",
         "kartik-v/yii2-widget-depdrop": "^1.0",
         "yiisoft/yii2-imagine": "^2.1",
-        "igogo5yo/yii2-upload-from-url": "^1.4"
+        "igogo5yo/yii2-upload-from-url": "^1.4",
+        "cinghie/yii2-fontawesome": "^1.4",
+        "evgeniyrru/yii2-slick": "^1.0",
+        "kartik-v/yii2-widget-select2": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

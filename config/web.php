@@ -54,17 +54,66 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'normalizer' => [
+                'class' => 'yii\web\UrlNormalizer'
+            ],
             'rules' => [
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<action:\w+>/<id:\d+>' => 'site/<action>',
-                '' => 'site/index',
-                '<action>'=>'site/<action>'
+                'news' => 'news/index',
+                'news/<slug>' => 'news/view',
+                '<slug>' => 'site/page',
+                '<action>' => 'site/<action>',
+                '' => 'site/index'
             ]
-
         ],
         'formatter' => [
-            'timeZone' => 'Europe/Kiev'
+            'timeZone' => 'Europe/Minsk'
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'basePath' => '@webroot/assets',
+            'baseUrl' => '@web/assets',
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'js' => [
+                        YII_DEBUG ? 'jquery.js' : 'jquery.min.js'
+                    ]
+                ],
+                'yii\jui\JuiAsset' => [
+                    'js' => [
+                        YII_DEBUG ? 'jquery-ui.js' : 'jquery-ui.min.js'
+                    ],
+                    'css' => [
+                        YII_DEBUG ? 'themes/smoothness/jquery-ui.css' : 'themes/smoothness/jquery-ui.min.css'
+                    ]
+                ],
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [
+                        YII_DEBUG ? 'css/bootstrap.css' : 'css/bootstrap.min.css'
+                    ]
+                ],
+                'yii\bootstrap\BootstrapPluginAsset' => [
+                    'js' => [
+                        YII_DEBUG ? 'js/bootstrap.js' : 'js/bootstrap.min.js'
+                    ]
+                ],
+                'app\assets\AppAsset' => [
+                    'css' => [
+                        YII_DEBUG ? 'css/main.css' : 'css/main.min.css',
+                        YII_DEBUG ? 'css/media.css' : 'css/media.min.css'
+                    ],
+                    'js' => [
+                        YII_DEBUG ? 'js/main.js' : 'js/main.min.js'
+                    ]
+                ],
+                'app\assets\AdminAsset' => [
+                    'js' => [
+                        YII_DEBUG ? 'js/admin.js' : 'js/admin.min.js'
+                    ]
+                ]
+            ]
+        ]
     ]
 ];
 

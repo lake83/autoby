@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\caching\TagDependency;
 
 /**
  * This is the model class for table "{{%ads}}".
@@ -126,6 +127,26 @@ class Ads extends \yii\db\ActiveRecord
             $this->image = [$this->image];
         }
         parent::afterFind();
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        TagDependency::invalidate(Yii::$app->cache, 'ads');
+        
+        parent::afterDelete();
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        TagDependency::invalidate(Yii::$app->cache, 'ads');
+        
+        return parent::afterSave($insert, $changedAttributes);
     }
     
     /**

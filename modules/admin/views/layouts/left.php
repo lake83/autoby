@@ -12,6 +12,7 @@ app\assets\AdminAsset::register($this);
     'encodeLabels' => false,
     'items' => [
         ['label' => 'Пользователи', 'url' => ['/admin/user/index'], 'icon' => 'users'],
+        ['label' => 'Страницы', 'url' => ['/admin/pages/index'], 'icon' => 'file'],
         ['label' => 'Новости', 'url' => ['/admin/news/index'], 'icon' => 'book'],
         ['label' => 'Каталог', 'url' => ['/admin/catalog/index'], 'icon' => 'table'],
         ['label' => 'Объявления', 'url' => ['/admin/ads/index'], 'icon' => 'shopping-cart'],

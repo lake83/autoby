@@ -10,6 +10,12 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
 use app\components\SiteHelper;
+use app\models\News;
+use app\models\Pages;
+use yii\web\NotFoundHttpException;
+use app\models\FilterForm;
+use app\models\Catalog;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -26,16 +32,16 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout'],
                         'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+                        'roles' => ['@']
+                    ]
+                ]
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+                    'logout' => ['post']
+                ]
+            ]
         ];
     }
 
@@ -46,12 +52,12 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => 'yii\web\ErrorAction'
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null
+            ]
         ];
     }
 
@@ -62,8 +68,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
-    }
+        $filter = new FilterForm;
+        
+        $years = range(date('Y'), 1950);
+        $capacity = array_merge(range(0.2, 3, 0.2), range(3, 6, 0.5), range(6, 10));
+        
+        return $this->render('index', [
+            'filter' => $filter,
+            'news' => News::find()->select(['name', 'slug', 'image', 'intro_text', 'created_at'])
+                ->where(['is_active' => 1])->orderBy('created_at DESC')->limit(10)->asArray()->all(),
+            'cars' => Catalog::getBrands(),
+            'ads_count' => Catalog::getAdsCount(),
+            'years' => array_combine($years, $years),
+            'capacity' => array_combine($capacity, $capacity)
+        ]);
+    }     
 
     /**
      * Login admin action.
@@ -114,14 +133,17 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
+    
     /**
-     * Displays about page.
+     * Контентная страница
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionPage($slug)
     {
-        return $this->render('about');
+        if (!$model = Pages::findOne(['slug' => $slug, 'is_active' => 1])) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+        return $this->render('page', ['model' => $model]);
     }
 }

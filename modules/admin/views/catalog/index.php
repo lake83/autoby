@@ -30,23 +30,24 @@ $this->title = 'Каталог';
         
         'name',
         'slug',
+        'popular:boolean',
         SiteHelper::is_active($searchModel),
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{models}{add-brand}{up}{down}{update}{delete}',
+            'template' => '{models} {add-brand} {up} {down} {update} {delete}',
             'buttons' => [
                 'models' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-list-alt"></span> ', ['models', 'brand' => $model->slug], ['title' => 'Модели', 'data-pjax' => 0]);
+                    return Html::a('<span class="glyphicon glyphicon-list-alt"></span>', ['models', 'brand' => $model->slug], ['title' => 'Модели', 'data-pjax' => 0]);
                 },
                 'add-brand' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-plus"></span> ', $url, ['title' => 'Добавить', 'data-pjax' => 0]);
+                    return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, ['title' => 'Добавить', 'data-pjax' => 0]);
                 },
                 'up' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-arrow-up"></span> ', $url, ['title' => 'Вверх', 'data-pjax' => 0]);
+                    return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', $url, ['title' => 'Вверх', 'data-pjax' => 0]);
                 },
                 'down' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-arrow-down"></span> ', $url, ['title' => 'Вниз', 'data-pjax' => 0]);
+                    return Html::a('<span class="glyphicon glyphicon-arrow-down"></span>', $url, ['title' => 'Вниз', 'data-pjax' => 0]);
                 }
             ],
             'urlCreator' => function ($action, $model, $key, $index) use ($dataProvider) {

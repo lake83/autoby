@@ -21,6 +21,7 @@ use yii\helpers\Url;
  * @property string $slug
  * @property string $year_from
  * @property string $year_to
+ * @property integer $popular
  * @property integer $is_active
  */
 class Catalog extends \yii\db\ActiveRecord
@@ -74,7 +75,7 @@ class Catalog extends \yii\db\ActiveRecord
     {
         return [
             ['name', 'required'],
-            [['lft', 'is_active', 'rgt', 'depth'], 'integer'],
+            [['lft', 'is_active', 'rgt', 'depth', 'popular'], 'integer'],
             [['year_from', 'year_to'], 'string', 'max' => 4],
             [['name', 'slug', 'image'], 'string', 'max' => 255]
         ];
@@ -92,6 +93,7 @@ class Catalog extends \yii\db\ActiveRecord
             'year_from' => 'Год начала выпуска',
             'year_to' => 'Год окончания выпуска',
             'image' => 'Логотип',
+            'popular' => 'Популярная',
             'is_active' => 'Активно'
         ];
     }
@@ -162,8 +164,38 @@ class Catalog extends \yii\db\ActiveRecord
     public static function getBrands()
     {
         return Yii::$app->cache->getOrSet('catalog_brands', function(){
-            return ArrayHelper::map(self::find()->select(['id', 'name'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name');
+            $data = ArrayHelper::map(self::find()->select(['id', 'name', 'popular'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name', 'popular');
+            return ['Популярные' => $data[1], 'Все' => $data[0]];
         }, 0, new TagDependency(['tags' => 'catalog']));
+    }
+    
+    /**
+     * Возвращает список марок с количеством объявлений
+     * 
+     * @return array
+     */
+    public static function getAdsCount()
+    {
+        return Yii::$app->cache->getOrSet('ads_count', function(){
+            $result = [];
+            $cars = self::getBrands();
+            foreach ($cars['Популярные'] + $cars['Все'] as $id => $name) {
+                $result[$id] = self::getCountAds($id, 3);
+            }
+            return $result;
+        }, 0, new TagDependency(['tags' => ['ads', 'catalog']]));
+    }
+    
+    /**
+     * Подсчет количества объявлений
+     * 
+     * @param  integer $id
+     * @param  integer $depth
+     * @return integer
+     */
+    public static function getCountAds($id, $depth)
+    {
+        return Ads::find()->where(['catalog_id' => self::findOne($id)->children($depth)->select(['id'])->andWhere(['is_active' => 1])->column(), 'is_active' => 1])->count();
     }
     
     /**

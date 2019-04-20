@@ -58,7 +58,7 @@ class SiteHelper
      * @param mixed $height высота  
      * @return string Url изображения
      */
-    public static function resized_image($image = '', $width, $height = '')
+    public static function resized_image($image = '', $width, $height = null)
     {
         $url = false;
         if (!empty($image)) {

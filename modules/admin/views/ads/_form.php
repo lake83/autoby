@@ -32,7 +32,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'depends' => ['brand'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['models'])
+            'url' => Url::to(['/filter/models'])
         ]
     ]) ?>
     
@@ -43,7 +43,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'depends' => ['brand', 'auto_model'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['issue-year'])
+            'url' => Url::to(['/filter/issue-year'])
         ]
     ]) ?>
     
@@ -54,7 +54,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'depends' => ['brand', 'auto_model', 'issue_year'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['car'])
+            'url' => Url::to(['/filter/car'])
         ]
     ]) ?>
     
@@ -65,7 +65,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'depends' => ['brand', 'auto_model', 'issue_year', 'catalog_id'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['type'])
+            'url' => Url::to(['/filter/type'])
         ]
     ]) ?>
 
@@ -102,7 +102,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'depends' => ['region'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['city'])
+            'url' => Url::to(['/filter/city'])
         ]
     ]) ?>
 

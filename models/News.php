@@ -85,7 +85,7 @@ class News extends ActiveRecord
             'not_show_region' => 'Не выводить для региона',
             'is_active' => 'Активно',
             'created_at' => 'Создан',
-            'updated_at' => 'Обновлен',
+            'updated_at' => 'Обновлен'
         ];
     }
 }

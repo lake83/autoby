@@ -26,7 +26,7 @@ class CatalogSearch extends Catalog
     public function rules()
     {
         return [
-            [['id', 'lft', 'rgt', 'depth', 'is_active'], 'integer'],
+            [['id', 'lft', 'rgt', 'depth', 'is_active', 'popular'], 'integer'],
             [['name', 'slug', 'year_from', 'year_to'], 'safe']
         ];
     }
@@ -72,7 +72,8 @@ class CatalogSearch extends Catalog
             'lft' => $this->lft,
             'rgt' => $this->rgt,
             'depth' => $this->depth,
-            'is_active' => $this->is_active,
+            'popular' => $this->popular,
+            'is_active' => $this->is_active
         ]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])

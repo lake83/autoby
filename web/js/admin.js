@@ -57,3 +57,10 @@ yii.confirm = function (message, ok, cancel) {
     });
     return false;
 }
+
+// Обновление datepicker на поле created_at после окончания pjax
+if ($('input[id$="created_at"]').length) {
+    $(document).on('pjax:success', function() {
+        $('input[id$="created_at"]').datepicker($.extend({}, $.datepicker.regional['ru'], {"dateFormat":"dd.mm.yy"}));
+    });
+}

@@ -54,7 +54,7 @@ $listOptions = ['class' => 'form-control', 'prompt' => '- выбрать -'];
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{delete}',
+                'template' => '{update} {delete}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) use ($modification_id){
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->id, 'modification_id' => $modification_id], ['title' => 'Редактировать', 'data-pjax' => 0]);
