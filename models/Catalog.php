@@ -199,19 +199,6 @@ class Catalog extends \yii\db\ActiveRecord
     }
     
     /**
-     * Возвращает спецификацию автомобиля
-     * 
-     * @param integer $id
-     * @return string
-     */
-    public static function getCar($id)
-    {
-        $model = self::findOne($id);
-        
-        return $model->parents(2)->select(['name'])->one()->name . '/' . $model->parents(1)->select(['name'])->one()->name . '/' . $model->name;
-    }
-    
-    /**
      * Возвращает ID следующего в БД элемента первого уровня
      * 
      * @return integer

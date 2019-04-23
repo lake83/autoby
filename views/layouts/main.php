@@ -46,7 +46,7 @@ $params = Yii::$app->params;
                                 </div>
                                
                                 <div class="menu-item transition">
-                                    <a href="cars.html" class="transition">Автомобили</a>
+                                    <a href="<?= Url::to(['cars/all']) ?>" class="transition">Автомобили</a>
                                 </div>
 
                                 <div class="menu-item transition">

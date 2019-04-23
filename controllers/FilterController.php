@@ -7,8 +7,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\City;
 use app\models\Catalog;
+use app\models\Ads;
 use app\models\Modifications;
-use yii\helpers\ArrayHelper;
 use yii\web\Response;
 
 class FilterController extends Controller
@@ -52,12 +52,13 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка моделей по бренду авто
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionModels()
+    public function actionModels($selected = '')
     {
         if ($_POST['depdrop_parents'][0] && ($model = Catalog::findOne(['id' => $_POST['depdrop_parents'][0], 'is_active' => 1]))) {
-            return $this->getList($model->children(1)->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all());
+            return $this->getList($model->children(1)->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all(), $selected);
         }
         return $this->fail;
     }
@@ -134,12 +135,13 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка поколений по модели авто
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionGenerations()
+    public function actionGenerations($selected = '')
     {
         if ($_POST['depdrop_parents'][1] && ($model = Catalog::findOne(['id' => $_POST['depdrop_parents'][1], 'is_active' => 1]))) {
-            return $this->getList($model->children()->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all());
+            return $this->getList($model->children()->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all(), $selected);
         }
         return $this->fail;
     }
@@ -151,26 +153,71 @@ class FilterController extends Controller
      */
     public function actionSelectList()
     {
-        if ($data = Catalog::findOne(Yii::$app->request->post('id'))->children(1)->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all()) {
-            return ['list' => $this->renderPartial('/site/_select_list', ['data' => $data]),
-                'count' => Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}', ['n' => 1])
+        if ($data = Catalog::findOne(Yii::$app->request->post('id'))->children(1)->select(['id', 'name'])->andWhere(['is_active' => 1])->indexBy('id')->asArray()->all()) {
+            if (Yii::$app->request->post('depth') == 1) {
+                $count = [];
+                foreach ($data as $item) {
+                    $count[$item['id']] = Catalog::getCountAds($item['id'], 1);
+                }
+                $sum = array_sum($count);
+            } else {
+                $sum = Ads::find()->where(['catalog_id' => array_keys($data), 'is_active' => 1])->count();
+            }
+            return ['list' => Yii::$app->request->post('depth') == 1 ? $this->renderPartial('/site/_select_list', ['data' => $data, 'count' => $count]) : null,
+                'count' => $sum ? Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}', ['n' => $sum]) : 0
             ];
         }
         return false;
     }
     
     /**
+     * Преобразование URL фильтра
+     * 
+     * @return string
+     */
+    public function actionSlug()
+    {
+        $url = '/cars/';
+        $params = [];
+        $session = Yii::$app->session;
+        
+        foreach (explode('&', Yii::$app->request->post('params')) as $couple) {
+            list ($key, $val) = explode('=', $couple);
+            $params[$key] = $val;
+        }
+        if (isset($params['brand']) && ($brand = Catalog::find()->select(['slug'])->where(['id' => $params['brand'], 'is_active' => 1])->scalar())) {
+            $url.= $brand;
+            $session[$brand] = $params['brand'];
+            unset($params['brand']);
+        }
+        if (isset($params['auto_model']) && ($model = Catalog::find()->select(['slug'])->where(['id' => $params['auto_model'], 'is_active' => 1])->scalar())) {
+            $url.= '/' . $model;
+            $session[$model] = $params[$params['auto_model']];
+            unset($params['auto_model']);
+        }
+        if (isset($params['generation'])) {
+            $url.= '/' . $params['generation'];
+            unset($params['generation']);
+        }
+        if ($params) {
+            $url.= '?' . http_build_query($params);
+        }           
+        return $url;
+    }
+    
+    /**
      * Создание списка из данних
      * 
      * @param array $data
+     * @param integer $selected
      * @return string
      */
-    private function getList($data)
+    private function getList($data, $selected = '')
     {
         $out = [];
         foreach ($data as $item) {
             $out[] = ['id' => $item['id'], 'name' => $item['name']];
         }
-        return ['output' => $out, 'selected' => ''];
+        return ['output' => $out, 'selected' => $selected];
     }
 }

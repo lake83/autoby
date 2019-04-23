@@ -58,6 +58,9 @@ $config = [
                 'class' => 'yii\web\UrlNormalizer'
             ],
             'rules' => [
+                'cars/<id:\d+>' => 'cars/view',
+                ['class' => 'app\components\CarsUrlRule'],
+                
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<action:\w+>/<id:\d+>' => 'site/<action>',
                 'news' => 'news/index',

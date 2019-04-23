@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\Pjax;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,7 +21,7 @@ use yii\widgets\Pjax;
                             
                     <?php Pjax::begin();
                     
-                    echo \yii\widgets\ListView::widget([
+                    echo ListView::widget([
                         'dataProvider' => $dataProvider,
                         'layout' => "{items}\n{pager}",
                         'itemView' => '_list_item'

@@ -150,6 +150,26 @@ class Ads extends \yii\db\ActiveRecord
     }
     
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCar()
+    {
+        return $this->hasOne(Catalog::className(), ['id' => 'catalog_id']);
+    }
+    
+    /**
+     * Возвращает спецификацию автомобиля
+     * 
+     * @return string
+     */
+    public function getCarTitle()
+    {
+        $model = $this->car;
+        
+        return ucwords($model->parents(2)->select(['name'])->one()->name . ' ' . $model->parents(1)->select(['name'])->one()->name . ' ' . $model->name);
+    }
+    
+    /**
      * Возвращает список валют или название валюты
      * 
      * @param integer $key ключ в массиве названий

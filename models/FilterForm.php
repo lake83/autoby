@@ -22,15 +22,22 @@ class FilterForm extends \yii\base\Model
     public $mileage_to;
     public $price_from;
     public $price_to;
+    public $sort;
 
+    public function formName()
+    {
+        return '';
+    }
+    
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
         return [
-            [['brand', 'auto_model', 'generation', 'type', 'transmission', 'engine', 'drive', 'year_from', 'year_to', 'mileage_from', 'mileage_to'], 'integer'],
-            [['capacity_from', 'capacity_to', 'price_from', 'price_to'], 'number']
+            [['type', 'transmission', 'engine', 'drive', 'year_from', 'year_to', 'mileage_from', 'mileage_to'], 'integer'],
+            [['capacity_from', 'capacity_to', 'price_from', 'price_to'], 'number'],
+            [['brand', 'auto_model', 'generation', 'sort'], 'safe']
         ];
     }
     

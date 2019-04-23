@@ -38,7 +38,7 @@ $type = Yii::$app->params['car_body_type']['options'];
                 'attribute' => 'catalog_id',
                 'filter' => Html::activeDropDownList($searchModel, 'catalog_id', Catalog::getBrands(), $listOptions),
                 'value' => function ($model, $index, $widget) {
-                    return Catalog::getCar($model->catalog_id);
+                    return $model->carTitle;
                 }
             ],
             [
