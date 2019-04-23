@@ -18,10 +18,10 @@ class AdsSearch extends Ads
     public function rules()
     {
         return [
-            [['id', 'catalog_id', 'type', 'condition', 'currency', 'engine_type', 'mileage', 'transmission', 'drive_type', 'color', 'city', 'is_active'], 'integer'],
+            [['id', 'catalog_id', 'type', 'condition', 'engine_type', 'doors', 'mileage', 'transmission', 'drive_type', 'color', 'city', 'is_active'], 'integer'],
             [['created_at', 'updated_at'], 'date', 'format' => 'd.m.Y'],
             [['issue_year', 'modification', 'text', 'image', 'seller_name', 'phones'], 'safe'],
-            [['price'], 'number']
+            [['capacity', 'price'], 'number']
         ];
     }
 
@@ -60,14 +60,15 @@ class AdsSearch extends Ads
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'capacity' => $this->capacity,
             'type' => $this->type,
             'condition' => $this->condition,
             'price' => $this->price,
-            'currency' => $this->currency,
             'engine_type' => $this->engine_type,
             'mileage' => $this->mileage,
             'transmission' => $this->transmission,
             'drive_type' => $this->drive_type,
+            'doors' => $this->doors,
             'color' => $this->color,
             'city' => $this->city,
             'is_active' => $this->is_active,

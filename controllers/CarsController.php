@@ -28,7 +28,7 @@ class CarsController extends Controller
      */
     public function actionAll()
     {
-        $query = Ads::find()->select(['id', 'catalog_id', 'issue_year', 'type', 'price', 'currency', 'engine_type', 'mileage', 'transmission', 'drive_type',
+        $query = Ads::find()->select(['id', 'catalog_id', 'issue_year', 'capacity', 'type', 'price', 'engine_type', 'mileage', 'transmission', 'drive_type',
             'color', 'image', 'city'])->where(['is_active' => 1])->orderBy('created_at DESC');
         
         return $this->render('all', [

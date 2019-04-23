@@ -7,13 +7,6 @@ use yii\helpers\ArrayHelper;
 
 class settings implements BootstrapInterface 
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = Yii::$app->db;
-    }
-
     /**
     * Bootstrap method to be called during application bootstrap stage.
     * Loads all the settings into the Yii::$app->params array
@@ -21,16 +14,13 @@ class settings implements BootstrapInterface
     */
     public function bootstrap($app)
     {
-        if (!$settings = Yii::$app->cache->get('settings')) {
-            $settings = ArrayHelper::map($this->db->createCommand("SELECT name, value FROM settings")->queryAll(), 'name', 'value');
-            Yii::$app->cache->set('settings', $settings, 0, new \yii\caching\TagDependency(['tags' => 'settings']));           
-        }
-        Yii::$app->params = $settings + require(__DIR__ . '/params.php');
+        $app->params = Yii::$app->cache->getOrSet('settings', function () use ($app) {
+            return ArrayHelper::map($app->db->createCommand("SELECT name, value FROM settings")->queryAll(), 'name', 'value');
+        }, 0, new \yii\caching\TagDependency(['tags' => 'settings'])) + require(__DIR__ . '/params.php');
         
         if (!$app instanceof \yii\console\Application) {
             // Установка темы в админке
-            Yii::$container->set('dmstr\web\AdminLteAsset', ['skin' => Yii::$app->params['skin']]);
+            Yii::$container->set('dmstr\web\AdminLteAsset', ['skin' => $app->params['skin']]);
         }
     }
 }
-?>

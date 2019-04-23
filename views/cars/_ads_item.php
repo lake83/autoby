@@ -6,6 +6,7 @@ use app\components\SiteHelper;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ads */
 
+$params = Yii::$app->params;
 ?>
 <div class="list-item col-xs-12">
     <div class="info-wrapper visible-xs">
@@ -14,12 +15,18 @@ use app\components\SiteHelper;
         </div>
                                     
         <div class="price visible-xs">
+            
+            <?php $this->beginBlock('price', true) ?>
+            
             <div class="r-price col-xs-12">
-                <span>150 000 BYN</span>
+                <span><?= round($model->price * SiteHelper::exchangeRate()) ?> BYN</span>
             </div>
             <div class="d-price">
-                <span>100 000 $</span>
+                <span><?= $model->price ?> $</span>
             </div>
+            
+            <?php $this->endBlock() ?>
+            
         </div>
     </div>
                                
@@ -33,37 +40,24 @@ use app\components\SiteHelper;
                                         
             <div class="specifications flex col-xs-12">
                 <div class="left">
-                    <div class="item">2.2л / Дизель</div>
-                    <div class="item">Автомат</div>
-                    <div class="item">Минивэн</div>
+                    <div class="item"><?= $model->capacity ?> л / <?= $params['engine']['options'][$model->engine_type] ?></div>
+                    <div class="item"><?= $params['transmission']['options'][$model->transmission] ?></div>
+                    <div class="item"><?= $params['car_body_type']['options'][$model->type] ?></div>
                 </div>
                                             
                 <div class="right">
-                    <div class="item">Передний</div>
-                    <div class="item">Серебристый</div>
+                    <div class="item"><?= $params['drive']['options'][$model->drive_type] ?></div>
+                    <div class="item"><?= $params['color']['options'][$model->color] ?></div>
                 </div>
             </div>
                                         
-            <div class="city col-xs-12">
-                                            Минск
-            </div>
+            <div class="city col-xs-12"><?= $model->cityTitle ?></div>
         </div>
                                     
-        <div class="price hidden-xs">
-            <div class="r-price col-xs-12">
-                <span>150 000 BYN</span>
-            </div>
-            <div class="d-price">
-                <span>100 000 $</span>
-            </div>
-        </div>
+        <div class="price hidden-xs"><?= $this->blocks['price'] ?></div>
                                     
-        <div class="year text-center">
-                                        2011
-        </div>
+        <div class="year text-center"><?= $model->issue_year ?></div>
                                     
-        <div class="mileage text-center">
-                                        150000 км
-        </div>
+        <div class="mileage text-center"><?= $model->mileage ?> км</div>
     </div>
 </div>

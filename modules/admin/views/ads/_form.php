@@ -68,6 +68,8 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'url' => Url::to(['/filter/type'])
         ]
     ]) ?>
+    
+    <?= $form->field($model, 'capacity')->textInput() ?>
 
     <?= $form->field($model, 'modification')->textInput(['maxlength' => true]) ?>
 
@@ -75,11 +77,11 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'currency')->dropDownList($model::getСurrency(), $listOptions) ?>
-
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'engine_type')->dropDownList(Yii::$app->params['engine']['options'], $listOptions) ?>
+    
+    <?= $form->field($model, 'doors')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'mileage')->textInput() ?>
 

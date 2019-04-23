@@ -102,5 +102,35 @@ class SiteHelper
         }
         return $redirect;
     }
+    
+    /**
+     * Актуальный курс BYN к USD
+     * 
+     * @return string
+     */
+    public static function exchangeRate()
+    {
+        return ($rate = Yii::$app->cache->getOrSet('exchange-rate', function () {
+            $ch = curl_init('http://www.nbrb.by/API/ExRates/Rates/145');
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        
+            $content = curl_exec($ch);
+        
+            curl_close($ch);
+        
+            if ($content) {
+                $content = json_decode($content, true);
+                if (isset($content['Cur_OfficialRate'])) {
+                    Yii::$app->db->createCommand()->update('settings', ['value' => $content['Cur_OfficialRate']], '`name`="exchange"')->execute();
+                    \yii\caching\TagDependency::invalidate(Yii::$app->cache, 'settings');
+                    return $content['Cur_OfficialRate'];
+                }
+            }
+            return false;
+        }, 24*60*60)) ? $rate : Yii::$app->params['exchange'];
+    }
 }
 ?>

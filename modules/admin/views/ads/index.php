@@ -48,14 +48,8 @@ $type = Yii::$app->params['car_body_type']['options'];
                     return $type[$model->type];
                 }
             ],
+            'capacity',
             'price',
-            [
-                'attribute' => 'currency',
-                'filter' => Html::activeDropDownList($searchModel, 'currency', $searchModel::getСurrency(), $listOptions),
-                'value' => function ($model, $index, $widget) {
-                    return $model->getСurrency($model->currency);
-                }
-            ],
             SiteHelper::is_active($searchModel),
             SiteHelper::created_at($searchModel),
 
