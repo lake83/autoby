@@ -10,6 +10,7 @@ use app\models\Catalog;
 use app\models\Ads;
 use app\models\Modifications;
 use yii\web\Response;
+use app\components\SiteHelper;
 
 class FilterController extends Controller
 {
@@ -147,28 +148,33 @@ class FilterController extends Controller
     }
     
     /**
-     * Построение списка на главной странице
+     * Построение списка в фильтре
      * 
      * @return string
      */
     public function actionSelectList()
     {
         if ($data = Catalog::findOne(Yii::$app->request->post('id'))->children(1)->select(['id', 'name'])->andWhere(['is_active' => 1])->indexBy('id')->asArray()->all()) {
-            if (Yii::$app->request->post('depth') == 1) {
-                $count = [];
-                foreach ($data as $item) {
-                    $count[$item['id']] = Catalog::getCountAds($item['id'], 1);
-                }
-                $sum = array_sum($count);
-            } else {
-                $sum = Ads::find()->where(['catalog_id' => array_keys($data), 'is_active' => 1])->count();
+            $count = [];
+            foreach ($data as $item) {
+                $count[$item['id']] = Catalog::getCountAds($item['id'], 1);
             }
-            return ['list' => Yii::$app->request->post('depth') == 1 ? $this->renderPartial('/site/_select_list', ['data' => $data, 'count' => $count]) : null,
-                'count' => $sum ? Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}', ['n' => $sum]) : 0
-            ];
+            return $this->renderPartial('/site/_select_list', ['data' => $data, 'count' => $count]);
         }
         return false;
     }
+    
+    /**
+     * Подсчет объявлений по заданным в фильтре параметрам
+     * 
+     * @return integer
+     */
+    public function actionAdsCount()
+    {
+        return ($sum = Yii::$app->runAction('/cars/all', ['queryParams' => Yii::$app->request->post('params')])) ?
+            Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}',
+            ['n' => $sum]) : 0;
+    }       
     
     /**
      * Преобразование URL фильтра
@@ -178,13 +184,9 @@ class FilterController extends Controller
     public function actionSlug()
     {
         $url = '/cars/';
-        $params = [];
+        $params = SiteHelper::queryStringToArray(Yii::$app->request->post('params'));
         $session = Yii::$app->session;
         
-        foreach (explode('&', Yii::$app->request->post('params')) as $couple) {
-            list ($key, $val) = explode('=', $couple);
-            $params[$key] = $val;
-        }
         if (isset($params['brand']) && ($brand = Catalog::find()->select(['slug'])->where(['id' => $params['brand'], 'is_active' => 1])->scalar())) {
             $url.= $brand;
             $session[$brand] = $params['brand'];

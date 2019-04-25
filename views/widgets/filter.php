@@ -28,7 +28,7 @@ $request = Yii::$app->request;
 <section class="filters col-xs-12" id="filters">
     <span class="title hidden-xs col-xs-12">Автомобили</span>
                             
-    <?php $form = ActiveForm::begin(['id' => 'ads-filter', 'method' => 'get', 'action' => Url::to(['cars/all'])]) ?>
+    <?php $form = ActiveForm::begin(['id' => 'ads-filter', 'method' => 'get', 'action' => Url::to(['cars/all']), 'options' => ['data-params' => '']]) ?>
                             
         <div class="filters-wrapper col-xs-12">
             <div class="filters-group col-xs-4">
@@ -55,6 +55,7 @@ $request = Yii::$app->request;
                         'depends' => ['brand'],
                         'placeholder' => 'Модель',
                         'loading' => false,
+                        'initialize' => true,
                         'url' => Url::to(['/filter/models', 'selected' => $request->get('auto_model')])
                     ]
                 ])->label(false) ?>
@@ -73,7 +74,6 @@ $request = Yii::$app->request;
                         'depends' => ['brand', 'auto_model'],
                         'placeholder' => 'Поколение',
                         'loading' => false,
-                        'initialize' => true,
                         'url' => Url::to(['/filter/generations', 'selected' => $request->get('generation')])
                     ]
                 ])->label(false) ?>

@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use Yii;
 use yii\web\UrlRuleInterface;
 use yii\base\BaseObject;
 use app\models\Catalog;
@@ -15,9 +16,9 @@ class CarsUrlRule extends BaseObject implements UrlRuleInterface
 
     public function parseRequest($manager, $request)
     {
-        if (strpos($request->getPathInfo(), 'cars') !== false) {
+        if (strpos($request->pathInfo, 'cars') !== false) {
             $session = \Yii::$app->session;
-            $pathInfo = explode('/', $request->getPathInfo());
+            $pathInfo = explode('/', $request->pathInfo);
             
             if (isset($pathInfo[1])) {
                 if ($brand = $session[$pathInfo[1]]) {
@@ -37,7 +38,7 @@ class CarsUrlRule extends BaseObject implements UrlRuleInterface
             }
             if (isset($pathInfo[3])) {
                 $params['generation'] = $pathInfo[3];
-            }         
+            } 
             return ['cars/all', $params];
         }
         return false;

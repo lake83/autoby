@@ -2120,6 +2120,12 @@ header {
 /*
  * Breadcrumbs (END)
  */
+.list-view .empty {
+    margin-top: 30px;
+}
+#ads-filter .help-block {
+    font-size: 12px;
+}
 /*
  * Footer
  */

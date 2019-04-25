@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\web\Controller;
 use app\models\Ads;
+use app\components\SiteHelper;
+use app\models\Catalog;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
@@ -23,18 +26,54 @@ class CarsController extends Controller
     
     /**
      * Страница Автомобили
+     * Если передана строка параметров запроса $queryParams возвращает число найденых объявлений
      *
-     * @return string
+     * @param string $queryParams
+     * @return string|integer
      */
-    public function actionAll()
+    public function actionAll($queryParams = false)
     {
-        $query = Ads::find()->select(['id', 'catalog_id', 'issue_year', 'capacity', 'type', 'price', 'engine_type', 'mileage', 'transmission', 'drive_type',
-            'color', 'image', 'city'])->where(['is_active' => 1])->orderBy('created_at DESC');
+        $request = Yii::$app->request;
         
+        $query = Ads::find()->select(['id', 'catalog_id', 'issue_year', 'capacity', 'type', 'price', 'engine_type', 'mileage', 'transmission', 'drive_type',
+            'color', 'image', 'city'])->where(['is_active' => 1]);
+        
+        $query->orderBy($request->get('sort') ? str_replace('-', ' ', $request->get('sort')) : 'created_at DESC');
+        
+        $params = $queryParams ? SiteHelper::queryStringToArray($queryParams) : $request->queryParams;
+        
+        if (!isset($params['auto_model']) && isset($params['brand']) && ($model = Catalog::findOne($params['brand']))) {
+            $query->andFilterWhere(['catalog_id' => $model->children()->andWhere(['depth' => 3])->select(['id'])->column()]);
+        }
+        if (!isset($params['generation']) && isset($params['auto_model']) && ($model = Catalog::findOne($params['auto_model']))) {
+            $query->andFilterWhere(['catalog_id' => $model->children()->andWhere(['depth' => 3])->select(['id'])->column()]);
+        }
+        if (isset($params['generation'])) {
+            $query->andFilterWhere(['catalog_id' => $params['generation']]);
+        }
+        unset($params['brand'], $params['auto_model'], $params['generation']);
+        
+        $this->from_to_query($query, $params, 'issue_year', 'year');
+        $this->from_to_query($query, $params, 'capacity', 'capacity');
+        $this->from_to_query($query, $params, 'mileage', 'mileage');
+        $this->from_to_query($query, $params, 'price', 'price');
+        
+        $query->andFilterWhere([
+            'type' => $params['type'],
+            'engine_type' => $params['engine'],
+            'transmission' => $params['transmission'],
+            'drive_type' => $params['drive'],
+        ]);
+        
+        if ($queryParams) {
+            return $query->count();
+        }
         return $this->render('all', [
             'dataProvider' => new ActiveDataProvider([
                 'query' => $query,
                 'pagination' => [
+                    'route' => $request->pathInfo,
+                    'params' => $params,
                     'defaultPageSize' => 6,
                     'pageSize' => 6
                 ]
@@ -53,5 +92,25 @@ class CarsController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
         return $this->render('view', ['model' => $model]);
-    } 
+    }
+    
+    /**
+     * Добавление условий запроса между заданными значениями
+     *
+     * @param object $query
+     * @param array $params
+     * @param string $field
+     * @param string $name
+     * @return object
+     */
+    private function from_to_query(\yii\db\ActiveQuery $query, $params, $field, $name)
+    {
+        if (isset($params[$name . '_from'])) {
+            $query->andFilterWhere(['>=', $field, $params[$name . '_from']]);
+        }
+        if (isset($params[$name . '_to'])) {
+            $query->andFilterWhere(['<=', $field, $params[$name . '_to']]);
+        }
+        return $query;
+    }
 }

@@ -130,7 +130,25 @@ class SiteHelper
                 }
             }
             return false;
-        }, 24*60*60)) ? $rate : Yii::$app->params['exchange'];
+        }, 12*60*60)) ? $rate : Yii::$app->params['exchange'];
+    }
+    
+    /**
+     * Преобразование строки запроса в массив параметров
+     * 
+     * @param string $queryParams
+     * @return array
+     */
+    public static function queryStringToArray($queryParams)
+    {
+        $params = [];
+        if ($queryParams) {
+            foreach (explode('&', $queryParams) as $couple) {
+                list ($key, $val) = explode('=', $couple);
+                $params[$key] = $val;
+            }
+        }
+        return $params;  
     }
 }
 ?>

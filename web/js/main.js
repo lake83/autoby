@@ -13,10 +13,9 @@
         $('.header-menu-wrapper').toggleClass("open");
     });    
         
-    // Burger (END) 
+// Burger (END) 
     
-    //Show all car marks
-    
+    // Показать все марки
     $('body').on('click', '.car-marks .car-mark.show-all', function(){
         var carMarksTop = $('.car-marks').offset().top - 20;
         event.preventDefault();
@@ -25,6 +24,8 @@
         $('.car-marks.all').toggle();
         $('body,html').animate({scrollTop: carMarksTop}, 500);
     });
+    
+    // Показать все модели
     $('body').on('click', '.car-models .car-model.show-all', function(){
         var carModelsTop = $('.car-models').offset().top - 20;
         event.preventDefault();
@@ -34,6 +35,7 @@
         $('body,html').animate({scrollTop: carModelsTop}, 500);
     });
     
+    // Переключить марку
     $('body').on('click', '.car-marks .car-mark a, .car-logos a', function(){
         event.preventDefault();
         
@@ -42,62 +44,62 @@
         }
         $('.all-filters-anchor').trigger('click');
     });
+    
+    // Переключить модель
     $('body').on('click', '.car-models .car-model a', function(){
         event.preventDefault();
         
-        if ($('#auto_model').is(':enabled') && $('#generation').is(':disabled')) {
-            $('#auto_model').val($(this).attr('href')).trigger('change.select2').trigger('select2:select');
-        }
+        $('#auto_model').val($(this).attr('href')).trigger('change.select2').trigger('select2:select');
+        $('#select-list').empty();
         $('.all-filters-anchor').trigger('click');
     });
     
+    // Вывод кнопки и удаление списков зависимо от к-тва результатов фильтра
+    $('#ads-filter select, #ads-filter input').on('change', function () {
+        var params = filterParams();
+        if (params && params != $('#ads-filter').attr('data-params')) {
+            $('#ads-filter').attr('data-params', params);
+            $.ajaxSetup({async: false});
+            $.post('/filter/ads-count', {params: params}, function(data) {
+                if (data === 0) {
+                    $('#ads-filter .blue-btn').hide();
+                    if (!$('.btn-wrapper .empty').length) {
+                        $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
+                    }
+                    $('#select-list').empty();
+                    } else {
+                    if ($('.btn-wrapper .empty').length) {
+                        $('.btn-wrapper .empty').remove();
+                    }
+                    if ($('#ads-filter .blue-btn').is(':hidden')) {
+                        $('#ads-filter .blue-btn').show();
+                    }
+                    $('#ads-filter .blue-btn').html(data);                  
+                }
+            });
+        }
+    });
+    
+    // Получить и вывести список моделей
     $('#auto_model').on('depdrop:afterChange', function(event, id, value) {
-        if (value && $('#auto_model').is(':enabled') && $('#generation').is(':disabled')) {
-            $.post('/filter/select-list', {id: value, depth: 1}, function(data) {
+        if ($('#ads-filter').attr('data-params').indexOf('brand') !== -1 && $('#ads-filter').attr('data-params').indexOf('auto_model') !== -1) {
+            $('#select-list').empty();
+        }
+        if (value && $('#ads-filter').attr('data-params').indexOf('auto_model') == -1 && !$('.btn-wrapper .empty').length) {
+            $('#select-list').hide();
+            $.post('/filter/select-list', {id: value}, function(data) {
                 if (data){
                     $('.car-logos').remove();
-                    sendButton(data.count);
-                    $('#select-list').html(data.list);
+                    $('#select-list').html(data);
+                    $('#select-list').show();
                 }
             });
         }
     });
-    $('#generation').on('depdrop:afterChange', function(event, id, value) {
-        if (value && $('#auto_model').is(':enabled') && $('#generation').is(':enabled')) {
-            $.post('/filter/select-list', {id: value, depth: 0}, function(data) {
-                $('#select-list').empty();
-                if (data){
-                    sendButton(data.count);
-                }
-            });
-        }
-    });
-    
-    function sendButton(count)
-    {
-        $('#select-list').empty();
-        if (count === 0) {
-            $('#ads-filter .blue-btn').hide();
-            if (!$('.empty').length) {
-                $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
-            }
-        } else {
-            if ($('.empty').length) {
-                $('.empty').remove();
-            }
-            if ($('#ads-filter .blue-btn').is(':hidden')) {
-                $('#ads-filter .blue-btn').show();
-            }
-            $('#ads-filter .blue-btn').html(count);                  
-        }
-    }
     
     // Удаление пустых GET параметров при отправке формы фильтра и подстановка алиасов
-    $('#ads-filter').submit(function () {
-        var data = $(this).serializeArray().filter(function(item) {
-            return !!item.value;
-        });
-        var params = jQuery.param(data);
+    $('#ads-filter').on('beforeSubmit', function () {
+        var params = filterParams();
         if (params.indexOf('brand') !== -1) {
             $.post('/filter/slug', {params: params}, function(data) {
                 window.location = data;
@@ -108,6 +110,15 @@
         return false;
     });
     
+    // Сбор параметров фильтра
+    function filterParams()
+    {
+        var form = $('#ads-filter').serializeArray().filter(function(item) {
+            return !!item.value;
+        });
+        return $.param(form);
+    }
+    
     // Сортировка объявлений моб. версия
     $('.sort-list a').click(function(){
         $('input[name=sort]').val($(this).attr('href'));
@@ -115,10 +126,8 @@
         return false;
     });
     
-    //Show all car marks (END)
+//Show - Hide All-filters-anchor and animate to filters
     
-    //Show - Hide All-filters-anchor and animate to filters
-        
     var filtersTop = $('#filters').offset().top + $('#filters').height(),
         scrTop = $(window).scrollTop();
     
@@ -154,9 +163,9 @@
         $('body,html').animate({scrollTop: top}, 500);
     });
     
-    //Show - Hide All-filters-anchor and animate to filters (END)
+//Show - Hide All-filters-anchor and animate to filters (END)
     
-    //Show - Hide mobile-all-filters
+//Show - Hide mobile-all-filters
     
     $('.filters .filters-wrapper .m-all-filters').click(function(){
         $('.filters .filters-group.more').removeClass('hidden-xs');
@@ -186,4 +195,4 @@
         }
     });
     
-    //Show - Hide mobile-all-filters (END)
+//Show - Hide mobile-all-filters (END)

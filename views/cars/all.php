@@ -27,7 +27,7 @@ $sort = Yii::$app->request->get('sort');
                                 'id' => 'sort',
                                 'name' => 'sort',
                                 'theme' => Select2::THEME_BOOTSTRAP,
-                                'data' => ['created_at_desc' => 'По актуальности', 'price_asc' => 'По дешевле', 'price_desc' => 'По дороже', 'year_from_asc' => 'По старее', 'year_from_desc' => 'По новее'],
+                                'data' => ['created_at-desc' => 'По актуальности', 'price-asc' => 'По дешевле', 'price-desc' => 'По дороже', 'issue_year-asc' => 'По старее', 'issue_year-desc' => 'По новее'],
                                 'value' => $sort,
                                 'hideSearch' => true,
                                 'pluginEvents' => [
@@ -42,13 +42,15 @@ $sort = Yii::$app->request->get('sort');
                         <span class="text"><b>Сортировать по:</b></span>
                                 
                         <ul class="sort-list col-xs-12">
-                            <li class="sort-item transition<?= $sort == 'created_at_desc' ? ' active' : '' ?>"><a href="created_at_desc">актуальности</a></li>
-                            <li class="sort-item transition<?= $sort == 'price_asc' ? ' active' : '' ?>"><a href="price_asc">дешевле</a></li>
-                            <li class="sort-item transition<?= $sort == 'price_desc' ? ' active' : '' ?>"><a href="price_desc">дороже</a></li>
-                            <li class="sort-item transition<?= $sort == 'year_from_asc' ? ' active' : '' ?>"><a href="year_from_asc">старее</a></li>
-                            <li class="sort-item transition<?= $sort == 'year_from_desc' ? ' active' : '' ?>"><a href="year_from_desc">новее</a></li>
+                            <li class="sort-item transition<?= $sort == 'created_at-desc' ? ' active' : '' ?>"><a href="created_at-desc">актуальности</a></li>
+                            <li class="sort-item transition<?= $sort == 'price-asc' ? ' active' : '' ?>"><a href="price-asc">дешевле</a></li>
+                            <li class="sort-item transition<?= $sort == 'price-desc' ? ' active' : '' ?>"><a href="price-desc">дороже</a></li>
+                            <li class="sort-item transition<?= $sort == 'issue_year-asc' ? ' active' : '' ?>"><a href="issue_year-asc">старее</a></li>
+                            <li class="sort-item transition<?= $sort == 'issue_year-desc' ? ' active' : '' ?>"><a href="issue_year-desc">новее</a></li>
                         </ul>
                     </div>
+                    
+                    <div class="clearfix"></div>
                     
                     <?php Pjax::begin();
                     
