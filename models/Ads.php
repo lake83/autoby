@@ -83,7 +83,7 @@ class Ads extends \yii\db\ActiveRecord
             'auto_model' => 'Модель',
             'catalog_id' => 'Автомобиль',
             'issue_year' => 'Год выпуска',
-            'capacity' => 'Объем',
+            'capacity' => 'Объем, л',
             'type' => 'Тип кузова',
             'modification' => 'Модефикация',
             'condition' => 'Состояние',
@@ -175,5 +175,13 @@ class Ads extends \yii\db\ActiveRecord
     public function getCityTitle()
     {
         return $this->hasOne(City::className(), ['id' => 'city'])->select(['name'])->scalar();
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegionTitle()
+    {
+        return Region::find()->where(['id' => $this->hasOne(City::className(), ['id' => 'city'])->select(['region_id'])->scalar()])->select(['name'])->scalar();
     }
 }
