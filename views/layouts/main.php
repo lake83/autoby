@@ -54,7 +54,7 @@ $params = Yii::$app->params;
                                 </div>
 
                                 <div class="menu-item transition">
-                                    <a href="" class="transition">Каталог</a>
+                                    <a href="<?= Url::to(['catalog/index']) ?>" class="transition">Каталог</a>
                                 </div>
                                 
                                 <div class="menu-item transition">

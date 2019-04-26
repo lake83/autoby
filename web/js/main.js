@@ -55,51 +55,60 @@
     });
     
     // Вывод кнопки и удаление списков зависимо от к-тва результатов фильтра
-    $('#ads-filter select, #ads-filter input').on('change', function () {
-        var params = filterParams();
-        if (params && params != $('#ads-filter').attr('data-params')) {
-            $('#ads-filter').attr('data-params', params);
-            $.ajaxSetup({async: false});
-            $.post('/filter/ads-count', {params: params}, function(data) {
-                if (data === 0) {
-                    $('#ads-filter .blue-btn').hide();
-                    if (!$('.btn-wrapper .empty').length) {
-                        $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
-                    }
-                    $('#select-list').empty();
-                    } else {
-                    if ($('.btn-wrapper .empty').length) {
-                        $('.btn-wrapper .empty').remove();
-                    }
-                    if ($('#ads-filter .blue-btn').is(':hidden')) {
-                        $('#ads-filter .blue-btn').show();
-                    }
-                    $('#ads-filter .blue-btn').html(data);                  
-                }
-            });
-        }
+    $('#ads-filter select, #ads-filter input, #locations').on('change', function () {
+        filterCount();
     });
+    
+    function filterCount()
+    {
+        if ($('#ads-filter').length) {
+            var params = filterParams('#ads-filter');
+            if (params && params != $('#ads-filter').attr('data-params')) {
+                $('#ads-filter').attr('data-params', params);
+                $.ajaxSetup({async: false});
+                $.post('/filter/ads-count', {params: params}, function(data) {
+                    if (data === 0) {
+                        $('#ads-filter .blue-btn').hide();
+                        if (!$('.btn-wrapper .empty').length) {
+                            $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
+                        }
+                        $('#select-list').empty();
+                        } else {
+                        if ($('.btn-wrapper .empty').length) {
+                            $('.btn-wrapper .empty').remove();
+                        }
+                        if ($('#ads-filter .blue-btn').is(':hidden')) {
+                            $('#ads-filter .blue-btn').show();
+                        }
+                        $('#ads-filter .blue-btn').html(data);                  
+                    }
+                });
+            }
+        }
+    }
     
     // Получить и вывести список моделей
     $('#auto_model').on('depdrop:afterChange', function(event, id, value) {
-        if ($('#ads-filter').attr('data-params').indexOf('brand') !== -1 && $('#ads-filter').attr('data-params').indexOf('auto_model') !== -1) {
-            $('#select-list').empty();
-        }
-        if (value && $('#ads-filter').attr('data-params').indexOf('auto_model') == -1 && !$('.btn-wrapper .empty').length) {
-            $('#select-list').hide();
-            $.post('/filter/select-list', {id: value}, function(data) {
-                if (data){
-                    $('.car-logos').remove();
-                    $('#select-list').html(data);
-                    $('#select-list').show();
-                }
-            });
+        if ($('#ads-filter').attr('action') == '/cars/all') {
+            if ($('#ads-filter').attr('data-params').indexOf('brand') !== -1 && $('#ads-filter').attr('data-params').indexOf('auto_model') !== -1) {
+                $('#select-list').empty();
+            }
+            if (value && $('#ads-filter').attr('data-params').indexOf('auto_model') == -1 && !$('.btn-wrapper .empty').length) {
+                $('#select-list').hide();
+                $.post('/filter/select-list', {id: value}, function(data) {
+                    if (data){
+                        $('.car-logos').remove();
+                        $('#select-list').html(data);
+                        $('#select-list').show();
+                    }
+                });
+            }
         }
     });
     
     // Удаление пустых GET параметров при отправке формы фильтра и подстановка алиасов
     $('#ads-filter').on('beforeSubmit', function () {
-        var params = filterParams();
+        var params = filterParams('#ads-filter');
         if (params.indexOf('brand') !== -1) {
             $.post('/filter/slug', {params: params}, function(data) {
                 window.location = data;
@@ -110,10 +119,17 @@
         return false;
     });
     
+    // Нельзя отправить форму на странице каталога если не выбраны все значения
+    $('#catalog-filter').on('beforeSubmit', function () {
+        if (filterParams('#catalog-filter').indexOf('type') == -1) {
+            return false;
+        }
+    });
+    
     // Сбор параметров фильтра
-    function filterParams()
+    function filterParams(form)
     {
-        var form = $('#ads-filter').serializeArray().filter(function(item) {
+        var form = $(form).serializeArray().filter(function(item) {
             return !!item.value;
         });
         return $.param(form);

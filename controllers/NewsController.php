@@ -10,18 +10,6 @@ use yii\web\NotFoundHttpException;
 class NewsController extends Controller
 {
     /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction'
-            ]
-        ];
-    }
-    
-    /**
      * Страница всех новостей
      *
      * @return string

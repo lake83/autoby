@@ -58,6 +58,8 @@ use yii\web\JsExpression;
                                 selected.push($(this).val());
                             });
                             document.cookie = 'locations=' + selected;
+                            $('input[name=locations]').val(selected);
+                            filterCount();
                         }"),
                         'onSelectAll' => new JsExpression("function() {
                             var selected = [];
@@ -65,6 +67,8 @@ use yii\web\JsExpression;
                                 selected.push($(this).val());
                             });
                             document.cookie = 'locations=' + selected;
+                            $('input[name=locations]').val(selected);
+                            filterCount();
                         }")
                    ]
                 ]) ?>

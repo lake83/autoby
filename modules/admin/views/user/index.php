@@ -22,6 +22,7 @@ $this->title = 'Пользователи';
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
+            'id',
             'username',
             'email:email',
             'phone',

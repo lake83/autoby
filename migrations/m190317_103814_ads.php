@@ -12,6 +12,7 @@ class m190317_103814_ads extends Migration
         $this->createTable('ads', [
             'id' => $this->primaryKey(),
             'catalog_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull(),
             'issue_year' => $this->string(4)->notNull(),
             'capacity' => $this->float()->notNull(),
             'type' => $this->integer()->notNull(),
@@ -26,17 +27,27 @@ class m190317_103814_ads extends Migration
             'doors' => $this->integer(1)->notNull(),
             'color' => $this->integer()->notNull(),
             'image' => $this->text()->notNull(),
-            'city' => $this->integer()->notNull(),
-            'seller_name' => $this->string()->notNull(),
-            'phones' => $this->string()->notNull(),
+            'city_id' => $this->integer()->notNull(),
             'is_active' => $this->boolean()->defaultValue(1),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull()
         ], $this->db->driverName === 'mysql' ? 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB' : null);
+        
+        $this->createIndex('idx-ads-user', 'ads', 'user_id');
+        $this->addForeignKey('ads_user_ibfk_1', 'ads', 'user_id', 'user', 'id', 'CASCADE');
+        
+        $this->createIndex('idx-ads-catalog', 'ads', 'catalog_id');
+        $this->addForeignKey('ads_catalog_ibfk_1', 'ads', 'catalog_id', 'catalog', 'id', 'CASCADE');
     }
 
     public function down()
     {
+        $this->dropForeignKey('ads_user_ibfk_1', 'ads');
+        $this->dropIndex('idx-ads-user', 'ads');
+        
+        $this->dropForeignKey('ads_catalog_ibfk_1', 'ads');
+        $this->dropIndex('idx-ads-catalog', 'ads');
+        
         $this->dropTable('ads');
     }
 }

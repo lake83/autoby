@@ -9,21 +9,10 @@ use app\components\SiteHelper;
 use app\models\Catalog;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
+use yii\helpers\Html;
 
 class CarsController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction'
-            ]
-        ];
-    }
-    
     /**
      * Страница Автомобили
      * Если передана строка параметров запроса $queryParams возвращает число найденых объявлений
@@ -36,7 +25,7 @@ class CarsController extends Controller
         $request = Yii::$app->request;
         
         $query = Ads::find()->select(['id', 'catalog_id', 'issue_year', 'capacity', 'type', 'price', 'engine_type', 'mileage', 'transmission', 'drive_type',
-            'color', 'image', 'city'])->where(['is_active' => 1]);
+            'color', 'image', 'city_id'])->where(['is_active' => 1]);
         
         $query->orderBy($request->get('sort') ? str_replace('-', ' ', $request->get('sort')) : 'created_at DESC');
         
@@ -58,6 +47,10 @@ class CarsController extends Controller
         $this->from_to_query($query, $params, 'mileage', 'mileage');
         $this->from_to_query($query, $params, 'price', 'price');
         
+        $locations = isset($params['locations']) ? $params['locations'] : (isset($_COOKIE['locations']) ? $_COOKIE['locations'] : null); 
+        if ($locations) {
+            $query->andFilterWhere(['city_id' => explode(',', urldecode(Html::encode($locations)))]);
+        }
         $query->andFilterWhere([
             'type' => $params['type'],
             'engine_type' => $params['engine'],
@@ -84,6 +77,7 @@ class CarsController extends Controller
     /**
      * Страница объявления
      *
+     * @param integer $id
      * @return string
      */
     public function actionView($id)

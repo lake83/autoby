@@ -69,6 +69,8 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
         ]
     ]) ?>
     
+    <?= $form->field($model, 'user_id')->textInput(['maxlength' => true])->hint('Указать ID пользователя.') ?>
+    
     <?= $form->field($model, 'capacity')->textInput() ?>
 
     <?= $form->field($model, 'modification')->textInput(['maxlength' => true]) ?>
@@ -97,7 +99,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
         'id' => 'region', 'options' => $model->isNewRecord ? [] : [$city['region_id'] => ['selected' => 'selected']]
     ]) ?>
     
-    <?= $form->field($model, 'city')->widget(DepDrop::classname(), [
+    <?= $form->field($model, 'city_id')->widget(DepDrop::classname(), [
         'options' => ['id' => 'city'],
         'data' => $model->isNewRecord ? [] : [$model->city => $city['name']],
         'pluginOptions' => [
@@ -107,10 +109,6 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
             'url' => Url::to(['/filter/city'])
         ]
     ]) ?>
-
-    <?= $form->field($model, 'seller_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'phones')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'is_active')->checkbox() ?>
 

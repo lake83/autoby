@@ -11,7 +11,7 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
     <?= $form->field($model, 'catalog_id')->hiddenInput(['value' => Yii::$app->request->get('catalog_id')])->label(false) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->dropDownList(Yii::$app->params['car_body_type']['options'], ['class' => 'form-control', 'prompt' => '- выбрать -']) ?>
 
     <?= $form->field($model, 'image')->widget(\app\components\FilemanagerMultipleInput::className()) ?>
 

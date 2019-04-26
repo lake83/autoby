@@ -42,6 +42,12 @@ $type = Yii::$app->params['car_body_type']['options'];
                 }
             ],
             [
+                'attribute' => 'user_id',
+                'value' => function ($model, $index, $widget) {
+                    return $model->user->username;
+                }
+            ],
+            [
                 'attribute' => 'type',
                 'filter' => Html::activeDropDownList($searchModel, 'type', $type, $listOptions),
                 'value' => function ($model, $index, $widget) use ($type) {

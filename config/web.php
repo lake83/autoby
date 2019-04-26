@@ -65,6 +65,7 @@ $config = [
                 '<action:\w+>/<id:\d+>' => 'site/<action>',
                 'news' => 'news/index',
                 'news/<slug>' => 'news/view',
+                'catalog' => 'catalog/index',
                 '<slug>' => 'site/page',
                 '<action>' => 'site/<action>',
                 '' => 'site/index'

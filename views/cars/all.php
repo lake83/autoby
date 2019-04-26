@@ -50,7 +50,7 @@ $sort = Yii::$app->request->get('sort');
                         </ul>
                     </div>
                     
-                    <div class="clearfix"></div>
+                    <div class="clearfix" style="margin-bottom: 15px;"></div>
                     
                     <?php Pjax::begin();
                     

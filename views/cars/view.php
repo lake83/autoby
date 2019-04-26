@@ -83,19 +83,13 @@ $params = Yii::$app->params;
                                 
                         <div class="author-info col-xs-12">
                             
-                            <?php if ($model->seller_name): ?>
-                            
-                            <span class="name col-xs-12"><?= Html::encode($model->seller_name) ?></span>
-                                    
-                            <?php endif; if ($model->phones): ?>
+                            <span class="name col-xs-12"><?= Html::encode($model->user->username) ?></span>
                             
                             <div class="phone col-xs-12">
-                                <i class="fas fa-phone-volume"></i> <a href="tel:+<?= $model->phones ?>">+<?= $model->phones ?></a>
-                            </div>
-                            
-                            <?php endif ?>                                                        
+                                <i class="fas fa-phone-volume"></i> <a href="tel:<?= $model->user->phone ?>"><?= $model->user->phone ?></a>
+                            </div>                                                      
                                     
-                            <span class="address col-xs-12"><?= $model->cityTitle ?>, <?= $model->regionTitle ?></span>
+                            <span class="address col-xs-12"><?= $model->city->name ?>, <?= $model->city->region->name ?></span>
                         </div>
                     </div>
                             

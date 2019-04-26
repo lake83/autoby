@@ -7,7 +7,6 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\City;
 use app\models\Catalog;
-use app\models\Ads;
 use app\models\Modifications;
 use yii\web\Response;
 use app\components\SiteHelper;
@@ -116,19 +115,23 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка тип кузова
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionType()
+    public function actionType($selected = '')
     {
-        if ($_POST['depdrop_parents'][3] &&
-           ($model = Modifications::find()->select(['name'])->where(['catalog_id' => $_POST['depdrop_parents'][3], 'is_active' => 1])->column())
+        $catalog_id = $_POST['depdrop_all_params']['catalog_id'] ? $_POST['depdrop_all_params']['catalog_id'] :
+            ($_POST['depdrop_all_params']['generation'] ? $_POST['depdrop_all_params']['generation'] : false);
+            
+        if ($catalog_id &&
+           ($model = Modifications::find()->select(['name'])->where(['catalog_id' => $catalog_id, 'is_active' => 1])->column())
         ) {
             $data = [];
             $type = Yii::$app->params['car_body_type']['options'];
             foreach (array_unique($model) as $one) {
                 $data[] = ['id' => $one, 'name' => $type[$one]];
             }
-            return $this->getList($data);
+            return $this->getList($data, $selected);
         }
         return $this->fail;
     }

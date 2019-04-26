@@ -35,9 +35,9 @@ class FilterForm extends \yii\base\Model
     public function rules()
     {
         return [
-            [['type', 'transmission', 'engine', 'drive', 'year_from', 'year_to', 'mileage_from', 'mileage_to'], 'integer'],
+            [['transmission', 'engine', 'drive', 'year_from', 'year_to', 'mileage_from', 'mileage_to'], 'integer'],
             [['capacity_from', 'capacity_to', 'price_from', 'price_to'], 'number'],
-            [['brand', 'auto_model', 'generation', 'sort'], 'safe']
+            [['brand', 'auto_model', 'generation', 'type', 'sort'], 'safe']
         ];
     }
     

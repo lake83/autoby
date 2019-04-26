@@ -30,7 +30,7 @@ class m170301_120109_user extends Migration
             'is_active' => 1,
             'created_at' => time(),
             'updated_at' => time()
-        ]);
+        ]);     
     }
     
     public function safeDown()

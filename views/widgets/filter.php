@@ -219,6 +219,8 @@ $request = Yii::$app->request;
             </div>
             
             <?= Html::hiddenInput('sort', $request->get('sort')) ?>
+            
+            <?= Html::hiddenInput('locations', $_COOKIE['locations']) ?>
                                 
             <div class="clearfix"></div>
             

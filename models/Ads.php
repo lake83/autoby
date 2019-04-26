@@ -11,6 +11,7 @@ use yii\caching\TagDependency;
  *
  * @property int $id
  * @property int $catalog_id
+ * @property int $user_id
  * @property string $issue_year
  * @property double $capacity
  * @property int $type
@@ -25,9 +26,7 @@ use yii\caching\TagDependency;
  * @property int $doors
  * @property int $color
  * @property string $image
- * @property int $city
- * @property string $seller_name
- * @property string $phones
+ * @property int $city_id
  * @property int $is_active
  * @property int $created_at
  * @property int $updated_at
@@ -62,13 +61,14 @@ class Ads extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['catalog_id', 'issue_year', 'capacity', 'type', 'price', 'text', 'engine_type', 'mileage', 'transmission', 'color'], 'required'],
-            [['catalog_id', 'type', 'condition', 'engine_type', 'mileage', 'transmission', 'drive_type', 'doors', 'color', 'city', 'is_active', 'created_at', 'updated_at'], 'integer'],
+            [['catalog_id', 'user_id', 'issue_year', 'capacity', 'type', 'price', 'text', 'engine_type', 'mileage', 'transmission', 'color', 'drive_type', 'doors', 'city_id'], 'required'],
+            [['catalog_id', 'type', 'condition', 'engine_type', 'mileage', 'transmission', 'drive_type', 'doors', 'color', 'city_id', 'is_active', 'created_at', 'updated_at'], 'integer'],
             [['capacity', 'price'], 'number'],
             [['text', 'image'], 'string'],
             [['issue_year'], 'string', 'max' => 4],
             [['doors'], 'string', 'max' => 1],
-            [['modification', 'seller_name', 'phones'], 'string', 'max' => 255]
+            [['modification'], 'string', 'max' => 255],
+            [['user_id'], 'exist', 'skipOnError' => false, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']]
         ];
     }
 
@@ -82,6 +82,7 @@ class Ads extends \yii\db\ActiveRecord
             'brand' => 'Марка автомобиля',
             'auto_model' => 'Модель',
             'catalog_id' => 'Автомобиль',
+            'user_id' => 'Пользователь',
             'issue_year' => 'Год выпуска',
             'capacity' => 'Объем, л',
             'type' => 'Тип кузова',
@@ -97,9 +98,7 @@ class Ads extends \yii\db\ActiveRecord
             'color' => 'Цвет',
             'image' => 'Изображение',
             'region' => 'Область',
-            'city' => 'Город',
-            'seller_name' => 'Имя продавца',
-            'phones' => 'Телефоны',
+            'city_id' => 'Город',
             'is_active' => 'Активно',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлен'
@@ -152,6 +151,14 @@ class Ads extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCar()
     {
         return $this->hasOne(Catalog::className(), ['id' => 'catalog_id']);
@@ -172,16 +179,8 @@ class Ads extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCityTitle()
+    public function getCity()
     {
-        return $this->hasOne(City::className(), ['id' => 'city'])->select(['name'])->scalar();
-    }
-    
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRegionTitle()
-    {
-        return Region::find()->where(['id' => $this->hasOne(City::className(), ['id' => 'city'])->select(['region_id'])->scalar()])->select(['name'])->scalar();
+        return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
 }

@@ -51,7 +51,7 @@ $params = Yii::$app->params;
                 </div>
             </div>
                                         
-            <div class="city col-xs-12"><?= $model->cityTitle ?></div>
+            <div class="city col-xs-12"><?= $model->city->name ?></div>
         </div>
                                     
         <div class="price hidden-xs"><?= $this->blocks['price'] ?></div>

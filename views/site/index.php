@@ -14,8 +14,6 @@ $this->registerMetaTag(['name' => 'keywords',
 $this->registerMetaTag(['name' => 'description',
     'content' => 'Объявления о продаже бу авто с пробегом в Беларуси. Срочный выкуп, обмен, кредит, лизинг, продажа подержанных автомобилей в своём автохаусе «Автобай». Заходите на сайт!'
 ]);
-
-//print_r(Yii::$app->msdb->createCommand('SELECT * FROM dbo.Site_Car')->queryOne());
 ?>
         
 <div class="content col-xs-12">
