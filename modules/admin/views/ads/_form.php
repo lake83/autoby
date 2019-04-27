@@ -15,57 +15,52 @@ $params = Yii::$app->params;
 $listOptions = ['class' => 'form-control', 'prompt' => '- выбрать -'];
 
 if (!$model->isNewRecord) {
-    $city = City::find()->select(['name', 'region_id'])->where(['id' => $model->city])->asArray()->one();
     $car = Catalog::findOne($model->catalog_id);
-    $auto_model = $car->parents(1)->select(['id', 'name'])->asArray()->one();
+    $model->brand = $car->parents(2)->select(['id'])->scalar();
+    $model->region = $model->city->region->id;
 }
 $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
-    <?= $form->field($model, 'brand')->dropDownList(Catalog::getBrands(), $listOptions + [
-        'id' => 'brand', 'options' => $model->isNewRecord ? [] : [$car->parents(2)->select(['id'])->scalar() => ['selected' => 'selected']]
-    ]) ?>
+    <?= $form->field($model, 'brand')->dropDownList(Catalog::getBrands(), $listOptions + ['id' => 'brand']) ?>
     
     <?= $form->field($model, 'auto_model')->widget(DepDrop::classname(), [
         'options' => ['id' => 'auto_model'],
-        'data' => $model->isNewRecord ? [] : [$auto_model['id'] => $auto_model['name']],
         'pluginOptions' => [
             'depends' => ['brand'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['/filter/models'])
+            'url' => Url::to(['/filter/models', 'selected' => !$model->isNewRecord ? $car->parents(1)->select(['id'])->scalar() : ''])
         ]
     ]) ?>
     
     <?= $form->field($model, 'issue_year')->widget(DepDrop::classname(), [
         'options' => ['id' => 'issue_year'],
-        'data' => $model->isNewRecord ? [] : [$model->issue_year => $model->issue_year],
         'pluginOptions' => [
             'depends' => ['brand', 'auto_model'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['/filter/issue-year'])
+            'url' => Url::to(['/filter/issue-year', 'selected' => !$model->isNewRecord ? $model->issue_year : ''])
         ]
     ]) ?>
     
     <?= $form->field($model, 'catalog_id')->widget(DepDrop::classname(), [
         'options' => ['id' => 'catalog_id'],
-        'data' => $model->isNewRecord ? [] : [$model->catalog_id => $car->name],
         'pluginOptions' => [
             'depends' => ['brand', 'auto_model', 'issue_year'],
             'placeholder' => '- выбрать -',
             'loading' => false,
-            'url' => Url::to(['/filter/car'])
+            'url' => Url::to(['/filter/car', 'selected' => !$model->isNewRecord ? $model->catalog_id : ''])
         ]
     ]) ?>
     
     <?= $form->field($model, 'type')->widget(DepDrop::classname(), [
         'options' => ['id' => 'type'],
-        'data' => $model->isNewRecord ? [] : [$model->type => Yii::$app->params['car_body_type']['options'][$model->type]],
         'pluginOptions' => [
             'depends' => ['brand', 'auto_model', 'issue_year', 'catalog_id'],
             'placeholder' => '- выбрать -',
+            'initialize' => true,
             'loading' => false,
-            'url' => Url::to(['/filter/type'])
+            'url' => Url::to(['/filter/type', 'selected' => !$model->isNewRecord ? $model->type : ''])
         ]
     ]) ?>
     
@@ -95,18 +90,16 @@ $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
     <?= $form->field($model, 'image')->widget(\app\components\FilemanagerMultipleInput::className()) ?>
 
-    <?= $form->field($model, 'region')->dropDownList(\app\models\Region::getAll(), $listOptions + [
-        'id' => 'region', 'options' => $model->isNewRecord ? [] : [$city['region_id'] => ['selected' => 'selected']]
-    ]) ?>
+    <?= $form->field($model, 'region')->dropDownList(\app\models\Region::getAll(), $listOptions + ['id' => 'region']) ?>
     
     <?= $form->field($model, 'city_id')->widget(DepDrop::classname(), [
         'options' => ['id' => 'city'],
-        'data' => $model->isNewRecord ? [] : [$model->city => $city['name']],
         'pluginOptions' => [
             'depends' => ['region'],
             'placeholder' => '- выбрать -',
+            'initialize' => true,
             'loading' => false,
-            'url' => Url::to(['/filter/city'])
+            'url' => Url::to(['/filter/city', 'selected' => !$model->isNewRecord ? $model->city_id : ''])
         ]
     ]) ?>
 

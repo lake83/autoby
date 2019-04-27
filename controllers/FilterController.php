@@ -39,12 +39,13 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка городов по заданой области
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionCity()
+    public function actionCity($selected = '')
     {
         if ($_POST['depdrop_parents'][0]) {
-            return $this->getList(City::find()->select(['id', 'name'])->where(['region_id' => $_POST['depdrop_parents'][0], 'is_active' => 1])->asArray()->all());
+            return $this->getList(City::find()->select(['id', 'name'])->where(['region_id' => $_POST['depdrop_parents'][0], 'is_active' => 1])->asArray()->all(), $selected);
         }
         return $this->fail;
     }
@@ -66,9 +67,10 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка годов выпуска по модели авто
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionIssueYear()
+    public function actionIssueYear($selected = '')
     {
         if ($_POST['depdrop_parents'][1] &&
             ($model = Catalog::find()->select(['year_from', 'year_to'])->where(['id' => $_POST['depdrop_parents'][1], 'is_active' => 1])->asArray()->one()) &&
@@ -86,7 +88,7 @@ class FilterController extends Controller
                         $model['year_from']++;
                         $years[] = ['id' => $model['year_from'], 'name' => $model['year_from']];
                     } while ($model['year_from'] < $model['year_to']);
-                    return $this->getList($years);
+                    return $this->getList($years, $selected);
                 }
             }
         }
@@ -96,9 +98,10 @@ class FilterController extends Controller
     /**
      * Возвращает данные для зависимого списка поколения автомобиля по годам выпуска
      * 
+     * @param integer $selected
      * @return string
      */
-    public function actionCar()
+    public function actionCar($selected = '')
     {
         if ($_POST['depdrop_parents'][1] && $_POST['depdrop_parents'][2] &&
             ($model = Catalog::find()->where(['id' => $_POST['depdrop_parents'][1], 'is_active' => 1])->one())
@@ -107,7 +110,7 @@ class FilterController extends Controller
                 ->andWhere(['is_active' => 1])
                 ->andWhere(['<=', 'year_from', $_POST['depdrop_parents'][2]])
                 ->andWhere(['>=', 'year_to', $_POST['depdrop_parents'][2]])
-                ->asArray()->all());
+                ->asArray()->all(), $selected);
         }
         return $this->fail;
     }
