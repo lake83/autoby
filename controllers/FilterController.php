@@ -211,6 +211,38 @@ class FilterController extends Controller
     }
     
     /**
+     * Преобразование URL каталога
+     * 
+     * @return string
+     */
+    public function actionCatalogSlug()
+    {
+        $url = '/catalog/specifications/';
+        $params = SiteHelper::queryStringToArray(Yii::$app->request->post('params'));
+        
+        if (isset($params['brand']) && ($brand = Catalog::find()->select(['slug'])->where(['id' => $params['brand'], 'is_active' => 1])->scalar())) {
+            $url.= $brand;
+            unset($params['brand']);
+        }
+        if (isset($params['auto_model']) && ($model = Catalog::find()->select(['slug'])->where(['id' => $params['auto_model'], 'is_active' => 1])->scalar())) {
+            $url.= '/' . $model;
+            unset($params['auto_model']);
+        }
+        if (isset($params['generation'])) {
+            $url.= '/' . $params['generation'];
+            unset($params['generation']);
+        }
+        if (isset($params['type'])) {
+            $url.= '/' . $params['type'];
+            unset($params['type']);
+        }
+        if ($params) {
+            $url.= '?' . http_build_query($params);
+        }          
+        return $url;
+    }
+    
+    /**
      * Создание списка из данних
      * 
      * @param array $data

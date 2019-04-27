@@ -59,6 +59,7 @@ $config = [
             ],
             'rules' => [
                 'cars/<id:\d+>' => 'cars/view',
+                'catalog/specifications/<brand>/<auto_model>/<generation>/<type>' => 'catalog/view',
                 ['class' => 'app\components\CarsUrlRule'],
                 
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',

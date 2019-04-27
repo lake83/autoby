@@ -67,7 +67,7 @@ class Modifications extends \yii\db\ActiveRecord
      */
     public function getSpecifications()
     {
-        return $this->hasMany(Specifications::className(), ['modification_id' => 'id']);
+        return $this->hasMany(Specifications::className(), ['modification_id' => 'id'])->select(['id', 'capacity', 'power', 'transmission', 'engine', 'drive'])->asArray();
     }
     
     /**

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\components\SiteHelper;
 use evgeniyrru\yii2slick\Slick;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ads */
@@ -79,7 +80,9 @@ $params = Yii::$app->params;
                             </li>
                         </ul>
                                 
-                        <a href="catalog.html" class="catalog-link transition">Характеристики модели в каталоге</a>
+                        <a href="<?= Url::to(['catalog/view', 'brand' => $model->car->parents(2)->select(['slug'])->one()->slug,
+                            'auto_model' => $model->car->parents(1)->select(['slug'])->one()->slug, 'generation' => $model->catalog_id,
+                            'type' => $model->type ]) ?>" class="catalog-link transition">Характеристики модели в каталоге</a>
                                 
                         <div class="author-info col-xs-12">
                             

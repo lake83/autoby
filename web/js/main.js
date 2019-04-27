@@ -107,7 +107,7 @@
     });
     
     // Удаление пустых GET параметров при отправке формы фильтра и подстановка алиасов
-    $('#ads-filter').on('beforeSubmit', function () {
+    $('#ads-filter').on('beforeSubmit', function() {
         var params = filterParams('#ads-filter');
         if (params.indexOf('brand') !== -1) {
             $.post('/filter/slug', {params: params}, function(data) {
@@ -119,11 +119,23 @@
         return false;
     });
     
-    // Нельзя отправить форму на странице каталога если не выбраны все значения
-    $('#catalog-filter').on('beforeSubmit', function () {
-        if (filterParams('#catalog-filter').indexOf('type') == -1) {
-            return false;
+    // Нельзя отправить форму на странице каталога если не выбраны все значения, преобразование URL
+    $('#catalog-filter').on('beforeSubmit', function() {
+        var params = filterParams('#catalog-filter');
+        if (params.indexOf('type') !== -1) {
+            $.post('/filter/catalog-slug', {params: params}, function(data) {
+                window.location = data;
+            });          
         }
+        return false;
+    });
+    
+    // Вывод спецификаций
+    $('.engine-type ul li a').on('click', function() {
+        $.post(window.location.href, {id: $(this).attr('href')}, function(data) {
+            $('#specification').html(data);
+        });
+        return false;
     });
     
     // Сбор параметров фильтра
