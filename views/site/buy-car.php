@@ -68,7 +68,7 @@ use yii\helpers\Html;
                                 
                             <div class="filters-group col-xs-6">
                                 
-                                <?= $form->field($model, 'price')->textInput(['placeholder' => 'Цена'])->label(false) ?>
+                                <?= $form->field($model, 'price')->textInput(['placeholder' => 'Цена, USD'])->label(false) ?>
                                 
                             </div>
                                 
@@ -92,7 +92,7 @@ use yii\helpers\Html;
                                 
                             <div class="filters-group col-xs-12">
                                 
-                                <?= $form->field($model, 'phone')->widget(MaskedInput::className(), ['mask' => Yii::$app->params['phone_mask'], 'options' => ['placeholder' => 'Телефон']])->label(false) ?>
+                                <?= $form->field($model, 'phone')->widget(MaskedInput::className(), ['mask' => Yii::$app->params['phone_mask'], 'options' => ['placeholder' => 'Телефон', 'class' => 'form-control']])->label(false) ?>
                                 
                             </div>
                                 
