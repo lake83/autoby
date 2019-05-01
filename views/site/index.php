@@ -23,17 +23,17 @@ $this->registerMetaTag(['name' => 'description',
         <div class="row">
             <div class="main-content col-xs-12 col-md-9">
 
-                <?php if (count($news) > 0): $first = array_shift($news); ?>
+                <?php if (count($news) > 0): ?>
                         
                 <section class="main-ad col-xs-12 hidden-xs">
-                    <div class="image" style="background: url('<?= SiteHelper::resized_image($first['image'], 200) ?>')"></div>
+                    <div class="image" style="background: url('<?= SiteHelper::resized_image($news[0]['image'], 200) ?>')"></div>
                             
                     <div class="info">
                         <span class="category col-xs-12">новости компаний</span>
-                        <span class="title col-xs-12"><?= $first['name'] ?></span>
-                        <p class="description col-xs-12"><?= $first['intro_text'] ?></p>
+                        <span class="title col-xs-12"><?= $news[0]['name'] ?></span>
+                        <p class="description col-xs-12"><?= $news[0]['intro_text'] ?></p>
                                 
-                        <a href="<?= Url::to(['news/view', 'slug' => $first['slug']]) ?>" class="read-more transition">Читать дальше <i class="fas fa-angle-right transition"></i></a>
+                        <a href="<?= Url::to(['news/view', 'slug' => $news[0]['slug']]) ?>" class="read-more transition">Читать дальше <i class="fas fa-angle-right transition"></i></a>
                     </div>
                 </section>
                         

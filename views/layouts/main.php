@@ -58,7 +58,7 @@ $params = Yii::$app->params;
                                 </div>
                                 
                                 <div class="menu-item transition">
-                                    <a href="" class="transition">Выкуп авто</a>
+                                    <a href="<?= Url::to(['site/buy-car']) ?>" class="transition">Выкуп авто</a>
                                 </div>
                                <div class="footer-menu visible-xs">
                                    

@@ -164,7 +164,7 @@ class Catalog extends \yii\db\ActiveRecord
     public static function getBrands()
     {
         return Yii::$app->cache->getOrSet('catalog_brands', function(){
-            $data = ArrayHelper::map(self::find()->select(['id', 'name', 'popular'])->where(['is_active' => 1, 'depth' => 1])->orderBy('lft ASC')->asArray()->all(), 'id', 'name', 'popular');
+            $data = ArrayHelper::map(self::find()->select(['id', 'name', 'popular'])->where(['is_active' => 1, 'depth' => 1])->orderBy('name ASC')->asArray()->all(), 'id', 'name', 'popular');
             return ['Популярные' => $data[1], 'Все' => $data[0]];
         }, 0, new TagDependency(['tags' => 'catalog']));
     }

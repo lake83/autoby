@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\BuyCarForm;
 use app\components\SiteHelper;
 use app\models\News;
 use app\models\Pages;
@@ -131,5 +132,23 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
         return $this->render('page', ['model' => $model]);
+    }
+    
+    /**
+     * Страница выкупа авто
+     *
+     * @return string
+     */
+    public function actionBuyCar()
+    {
+        $model = new BuyCarForm;
+        if ($model->load(Yii::$app->request->post()) && $model->offer(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('buyCarFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('buy-car', [
+            'model' => $model
+        ]);
     }
 }
