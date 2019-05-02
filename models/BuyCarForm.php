@@ -60,9 +60,9 @@ class BuyCarForm extends Model
             $this->auto_model = Catalog::find()->select(['name'])->where(['id' => $this->auto_model])->scalar();
             
             Yii::$app->mailer->compose(['html' => 'buyCar-html'], ['model' => $this])
-                ->setFrom(['noreply@autoby.by' => Yii::$app->name])
+                ->setFrom(['noreply@autoby.by' => ($site = Yii::$app->name)])
                 ->setTo($email)
-                ->setSubject('Заявка на выкуп автомобиля на ' . Yii::$app->name)
+                ->setSubject('Заявка на выкуп автомобиля на ' . $site)
                 ->send();
 
             return true;

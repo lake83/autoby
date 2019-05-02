@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ae5cd82e123046f58446c57aa28ca75",
+    "content-hash": "591a565cf8561bff6a4ca5d2e0b984c1",
     "packages": [
         {
             "name": "2amigos/yii2-multi-select-widget",
@@ -1723,7 +1723,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -1776,7 +1776,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -1949,6 +1949,144 @@
             "time": "2019-02-06T07:57:58+00:00"
         },
         {
+            "name": "twilio/sdk",
+            "version": "5.31.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "58a8322c5a8ce2ff7d68cd16ff56dc8ab44c168f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/58a8322c5a8ce2ff7d68cd16ff56dc8ab44c168f",
+                "reference": "58a8322c5a8ce2ff7d68cd16ff56dc8ab44c168f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4.1",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2019-05-01T17:36:14+00:00"
+        },
+        {
+            "name": "wadeshuler/yii2-sms",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WadeShuler/yii2-sms.git",
+                "reference": "e9761a2508d3603dec09ffc4a9df20d818590596"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WadeShuler/yii2-sms/zipball/e9761a2508d3603dec09ffc4a9df20d818590596",
+                "reference": "e9761a2508d3603dec09ffc4a9df20d818590596",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "~2.0.11"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "wadeshuler\\sms\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wade Shuler",
+                    "email": "wadeshuler@users.noreply.github.com"
+                }
+            ],
+            "description": "This is the base library for providing SMS support in your Yii2 application. You can make your own plugins for SMS providers off this base package. It is not to be directly used.",
+            "homepage": "https://github.com/wadeshuler/yii2-sms",
+            "keywords": [
+                "sms",
+                "text message",
+                "yii2",
+                "yii2 sms"
+            ],
+            "time": "2019-02-19T06:44:05+00:00"
+        },
+        {
+            "name": "wadeshuler/yii2-sms-twilio",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WadeShuler/yii2-sms-twilio.git",
+                "reference": "ab56cb9d445364f946c3a2b8fc394c06bf851462"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WadeShuler/yii2-sms-twilio/zipball/ab56cb9d445364f946c3a2b8fc394c06bf851462",
+                "reference": "ab56cb9d445364f946c3a2b8fc394c06bf851462",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "twilio/sdk": "^5.11",
+                "wadeshuler/yii2-sms": "~1.0",
+                "yiisoft/yii2": "~2.0.11"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "wadeshuler\\sms\\twilio\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wade Shuler",
+                    "email": "wadeshuler@users.noreply.github.com"
+                }
+            ],
+            "description": "A Twilio SMS plugin for Yii2 based off my base package, Yii2 SMS, to make sending SMS messages as easy as emails!",
+            "homepage": "https://github.com/wadeshuler/yii2-sms-twilio",
+            "keywords": [
+                "sms",
+                "text message",
+                "twilio",
+                "yii2",
+                "yii2 sms",
+                "yii2 twilio"
+            ],
+            "time": "2019-02-19T06:59:04+00:00"
+        },
+        {
             "name": "wbraganca/yii2-dynamicform",
             "version": "v2.0.2",
             "source": {
@@ -2039,12 +2177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "b80830c5f8c221b8bd6a830c5b2f45544f82c4d7"
+                "reference": "be563f0211bd5d4424680d0fcdef578090f08e41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b80830c5f8c221b8bd6a830c5b2f45544f82c4d7",
-                "reference": "b80830c5f8c221b8bd6a830c5b2f45544f82c4d7",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/be563f0211bd5d4424680d0fcdef578090f08e41",
+                "reference": "be563f0211bd5d4424680d0fcdef578090f08e41",
                 "shasum": ""
             },
             "require": {
@@ -2485,16 +2623,16 @@
         },
         {
             "name": "codeception/base",
-            "version": "2.5.5",
+            "version": "2.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/base.git",
-                "reference": "17c3e2fc627b18dceec393b4b42e47c45be31ac2"
+                "reference": "aace5bab5593c93d8473b620f70754135a1eb4f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/base/zipball/17c3e2fc627b18dceec393b4b42e47c45be31ac2",
-                "reference": "17c3e2fc627b18dceec393b4b42e47c45be31ac2",
+                "url": "https://api.github.com/repos/Codeception/base/zipball/aace5bab5593c93d8473b620f70754135a1eb4f0",
+                "reference": "aace5bab5593c93d8473b620f70754135a1eb4f0",
                 "shasum": ""
             },
             "require": {
@@ -2571,7 +2709,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2019-03-23T18:30:45+00:00"
+            "time": "2019-04-24T11:36:34+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -3099,16 +3237,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
                 "shasum": ""
             },
             "require": {
@@ -3146,7 +3284,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T07:14:17+00:00"
+            "time": "2019-04-30T17:48:53+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -4387,7 +4525,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -4444,7 +4582,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -4516,7 +4654,7 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -4572,7 +4710,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -4635,7 +4773,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -4684,7 +4822,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.26",
+            "version": "v3.4.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

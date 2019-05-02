@@ -11,9 +11,8 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $username;
-    public $password;
-    public $rememberMe = true;
+    public $phone;
+    public $sms;
 
     private $_user = false;
 
@@ -24,13 +23,8 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
-            ['password', 'validatePassword'],
-            [['username', 'password'], 'trim']
+            ['phone', 'required'],
+            ['sms', 'validateSms']
         ];
     }
     
@@ -40,26 +34,25 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'E-mail',
-            'password' => 'Пароль',
-            'rememberMe' => 'Запомнить меня'
+            'phone' => 'Телефон',
+            'sms' => 'SMS'
         ];
     }
-
+    
     /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
+     * Validates the SMS.
+     * This method serves as the inline validation for SMS.
      *
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validatePassword($attribute, $params)
+    public function validateSms($attribute, $params)
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Не верный логин или пароль.');
+            if (!$user || $user->sms !== $this->sms) {
+                $this->addError($attribute, 'Не верный телефон или SMS.');
             }
         }
     }
@@ -70,7 +63,11 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate() && Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0)) {
+        if ($this->validate() && Yii::$app->user->login($this->getUser(), 3600*24*30)) {
+            if ($this->_user->is_active === 0) {
+                $this->_user->is_active = 1;
+                $this->_user->save();
+            }
             return $this->_user->status;
         } else {
             return false;
@@ -85,9 +82,31 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByPhone($this->phone);
         }
-
         return $this->_user;
+    }
+    
+    /**
+     * НАхождение или создание пользователя и отправка SMS для авторизации
+     *
+     * @param array $phone
+     * @return boolean
+     */
+    public function sendSms($phone)
+    {
+        $sms = rand(1000, 9999);
+        if ($user = User::findByPhone($phone)){
+            $user->sms = $sms;
+        } else {
+            $user = new User;
+            $user->phone = $phone;
+            $user->sms = $sms;
+            $user->is_active = 0;
+        }
+        if ($user->save()) {
+            return true;
+        }
+        return false;
     }
 }

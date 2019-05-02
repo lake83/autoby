@@ -36,8 +36,7 @@ $this->beginPage() ?>
     <div class="wrapper">
 
         <?php 
-        if (Yii::$app->errorHandler->exception == null)
-        {
+        if (Yii::$app->errorHandler->exception == null){
             echo $this->render('header.php');
             echo $this->render('left.php');
         } 

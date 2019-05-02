@@ -6,6 +6,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
+use app\models\AdminLoginForm;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\BuyCarForm;
@@ -80,15 +81,39 @@ class SiteController extends Controller
     {
         $this->layout = '@app/modules/admin/views/layouts/main-login';
         
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest){
             return $this->goHome();
         }
-        $model = new LoginForm();
+        $model = new AdminLoginForm;
         
-        if ($model->load(Yii::$app->request->post()) && $status = $model->login()) {
+        if ($model->load(Yii::$app->request->post()) && $status = $model->login()){
             return $this->redirect(SiteHelper::redirectByRole($status));
         }
         return $this->render('@app/modules/admin/views/admin/login', ['model' => $model]);
+    }
+    
+    /**
+     * Страница входа
+     *
+     * @return string
+     */
+    public function actionLogin()
+    {
+        $this->layout = 'light';
+        
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $model = new LoginForm;
+        $request = Yii::$app->request;
+        
+        if ($request->isAjax && ($phone = $request->post('phone'))) {
+            return $model->sendSms($phone);
+        }
+        if ($model->load($request->post()) && ($status = $model->login())) {
+            return $this->redirect(SiteHelper::redirectByRole($status));
+        }
+        return $this->render('login', ['model' => $model]);
     }
 
     /**
@@ -111,7 +136,7 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])){
             Yii::$app->session->setFlash('contactFormSubmitted');
 
             return $this->refresh();
@@ -128,7 +153,7 @@ class SiteController extends Controller
      */
     public function actionPage($slug)
     {
-        if (!$model = Pages::findOne(['slug' => $slug, 'is_active' => 1])) {
+        if (!$model = Pages::findOne(['slug' => $slug, 'is_active' => 1])){
             throw new NotFoundHttpException('Страница не найдена.');
         }
         return $this->render('page', ['model' => $model]);
@@ -142,7 +167,7 @@ class SiteController extends Controller
     public function actionBuyCar()
     {
         $model = new BuyCarForm;
-        if ($model->load(Yii::$app->request->post()) && $model->offer(Yii::$app->params['adminEmail'])) {
+        if ($model->load(Yii::$app->request->post()) && $model->offer(Yii::$app->params['adminEmail'])){
             Yii::$app->session->setFlash('buyCarFormSubmitted');
 
             return $this->refresh();

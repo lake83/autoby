@@ -130,6 +130,20 @@
         return false;
     });
     
+    // Форма авторизации пользователя
+    $('#user-login').on('beforeSubmit', function() {
+        if ($(this).find('.has-error').length) {
+            return false;
+        } else {
+            $.post($(this).attr('action'), {phone: $('#loginform-phone').val()}, function(data) {
+                alert(data)
+            });          
+        }
+        return false;
+    }).on('submit', function(e){
+        e.preventDefault();
+    });
+    
     // Вывод спецификаций
     $('.engine-type ul li a').on('click', function() {
         $.post(window.location.href, {id: $(this).attr('href')}, function(data) {

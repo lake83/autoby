@@ -10,6 +10,7 @@ class m170301_120109_user extends Migration
             'id' => $this->primaryKey(),
             'username' => $this->string(100)->notNull(),
             'auth_key' => $this->string(32)->notNull(),
+            'sms' => $this->integer(4)->notNull(),
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->defaultValue(null),
             'email' => $this->string(100)->notNull(),
@@ -23,6 +24,7 @@ class m170301_120109_user extends Migration
         $this->insert('user', [
             'username' => 'admin',
             'auth_key' => Yii::$app->security->generateRandomString(),
+            'sms' => '',
             'password_hash' => Yii::$app->security->generatePasswordHash('admin'),
             'password_reset_token' => null,
             'email' => 'lake0362@gmail.com',

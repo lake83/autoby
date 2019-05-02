@@ -67,7 +67,7 @@ $config = [
                 'news' => 'news/index',
                 'news/<slug>' => 'news/view',
                 'catalog' => 'catalog/index',
-                '<action:(admin|logout|contact|buy-car)>' => 'site/<action>',
+                '<action:(admin|login|logout|contact|buy-car)>' => 'site/<action>',
                 '<slug>' => 'site/page',
                 '' => 'site/index'
             ]

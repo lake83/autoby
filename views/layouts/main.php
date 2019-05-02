@@ -37,13 +37,20 @@ $params = Yii::$app->params;
                         </div>
                         <div class="header-menu-wrapper">
                             <nav class="header-menu">
+                                
+                                <?php if ($isGuest = Yii::$app->user->isGuest): ?>
+                                
                                 <div class="login visible-xs">
-                                    <a href="login.html" class="transition">Войти</a>
+                                    <a href="<?= Url::to(['site/login']) ?>" class="transition">Войти</a>
                                 </div>
                                 
-                                <div class="add-offer visible-xs">
-                                    <a href="product-create.html" class="transition"><i class="fas fa-plus"></i> <span>Продать</span></a>
+                                <?php else: ?>
+                                
+                                <div class="login visible-xs">
+                                    <a href="<?= Url::to(['site/logout']) ?>" class="transition" data-method="post">Выйти</a>
                                 </div>
+                                
+                                <?php endif ?>
                                
                                 <div class="menu-item transition">
                                     <a href="<?= Url::to(['cars/all']) ?>" class="transition">Автомобили</a>
@@ -89,13 +96,23 @@ $params = Yii::$app->params;
                             <div class="header-bg visible-xs"></div>
                         </div>
                         
+                        <?php if ($isGuest): ?>
+                                
                         <div class="login hidden-xs">
-                            <a href="login.html" class="transition">Войти</a>
+                            <a href="<?= Url::to(['site/login']) ?>" class="transition">Войти</a>
+                        </div>
+                                
+                        <?php else: ?>
+                                
+                        <div class="login hidden-xs">
+                            <a href="<?= Url::to(['site/logout']) ?>" class="transition" data-method="post">Выйти</a>
                         </div>
                         
                         <div class="add-offer">
-                            <a href="product-create.html" class="transition"><i class="fas fa-plus"></i> <span class="hidden-xs">Продать</span></a>
+                            <a href="<?= Url::to(['user/create-ad']) ?>" class="transition"><i class="fas fa-plus"></i> <span class="hidden-xs">Продать</span></a>
                         </div>
+                                
+                        <?php endif ?>
                         
                         <div class="navbar-header visible-xs">
                             <button type="button" class="navbar-toggle collapsed visible-xs visible-sm">

@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $phone
  * @property integer $is_active
  * @property string $auth_key
+ * @property integer $sms
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -59,19 +60,19 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'phone'], 'required'],
+            [['phone'], 'required'],
             ['username', 'string', 'min' => 3, 'max' => 25],
             
-            ['email', 'required'],
+            [['username', 'email'], 'required', 'except' => 'sms'],
             ['email', 'email'],
             [['email'], 'string', 'max' => 255],
             
             [['username', 'email'], 'trim'],
             [['password_hash', 'new_password'], 'string', 'min' => 6],
             ['phone', 'string', 'min' => 19],
-            [['status', 'is_active', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'is_active', 'sms', 'created_at', 'updated_at'], 'integer'],
             [['username'], 'match', 'pattern' => '/^(([a-z\(\)\s]+)|([а-яё\(\)\s]+))$/isu'],
-            ['new_password', 'required', 'on' => 'insert']
+            ['new_password', 'required', 'on' => 'insert', 'except' => 'sms']
         ];
     }
     
@@ -88,6 +89,7 @@ class User extends ActiveRecord implements IdentityInterface
             'password_hash' => 'Пароль',
             'new_password' => 'Новый пароль',
             'status' => 'Статус',
+            'sms' => 'SMS',
             'is_active' => 'Активно',
             'created_at' => 'Создан',
             'updated_at' => 'Обновлен'
@@ -108,6 +110,8 @@ class User extends ActiveRecord implements IdentityInterface
         if (!empty($this->new_password)) {
             $this->setPassword($this->new_password);
         }
+        self::deleteAll('is_active=0 AND created_at<' . strtotime('-1 hour'));
+        
         return parent::beforeSave($insert);
     }
     
@@ -147,6 +151,17 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::find()->where(['is_active' => 1])->andWhere(['or', ['username' => $username], ['email' => $username]])->one();
+    }
+    
+    /**
+     * Finds user by phone
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByPhone($phone)
+    {
+        return static::find()->where(['phone' => $phone])->one();
     }
 
     /**
