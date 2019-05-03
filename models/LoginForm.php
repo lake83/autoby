@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use app\components\SiteHelper;
 
 /**
  * LoginForm is the model behind the login form.
@@ -24,6 +25,8 @@ class LoginForm extends Model
     {
         return [
             ['phone', 'required'],
+            ['sms', 'integer'],
+            ['sms', 'string', 'max' => 4],
             ['sms', 'validateSms']
         ];
     }
@@ -50,9 +53,9 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-
-            if (!$user || $user->sms !== $this->sms) {
-                $this->addError($attribute, 'Не верный телефон или SMS.');
+            
+            if (!$user || !($user->sms == $this->sms)) {
+                $this->addError($attribute, 'Не верный код SMS.');
             }
         }
     }
@@ -65,6 +68,7 @@ class LoginForm extends Model
     {
         if ($this->validate() && Yii::$app->user->login($this->getUser(), 3600*24*30)) {
             if ($this->_user->is_active === 0) {
+                $this->_user->scenario = 'sms';
                 $this->_user->is_active = 1;
                 $this->_user->save();
             }
@@ -96,16 +100,33 @@ class LoginForm extends Model
     public function sendSms($phone)
     {
         $sms = rand(1000, 9999);
-        if ($user = User::findByPhone($phone)){
-            $user->sms = $sms;
-        } else {
-            $user = new User;
-            $user->phone = $phone;
-            $user->sms = $sms;
-            $user->is_active = 0;
-        }
-        if ($user->save()) {
-            return true;
+        $params = Yii::$app->params;
+        $url = 'http://cp.websms.by/?' . http_build_query([
+           'r' => 'api/msg_send',
+           'user' => $params['api_login'],
+           'apikey' => $params['api_key'],
+           'recipients' => preg_replace('/[^0-9+]/', '', $phone),
+           'message' => 'Код для входа на сайте "' . Yii::$app->name . '": ' . $sms,
+           'sender' => 'autoby.by'
+        ]);
+        
+        if ($content = SiteHelper::sendCurl($url)) {
+            $content = json_decode($content, true);
+            if ($content['status'] !== 'success') {
+                return false;
+            }
+            if ($user = User::findByPhone($phone)){
+                $user->scenario = 'sms';
+                $user->sms = $sms;
+            } else {
+                $user = new User(['scenario' => 'sms']);
+                $user->phone = $phone;
+                $user->sms = $sms;
+                $user->is_active = 0;
+            }
+            if ($user->save()) {
+                return true;
+            }
         }
         return false;
     }

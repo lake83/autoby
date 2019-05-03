@@ -14,6 +14,8 @@ use app\components\SiteHelper;
 use app\models\News;
 use app\models\Pages;
 use yii\web\NotFoundHttpException;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -107,6 +109,10 @@ class SiteController extends Controller
         $model = new LoginForm;
         $request = Yii::$app->request;
         
+        if ($request->isAjax && $model->load($request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
         if ($request->isAjax && ($phone = $request->post('phone'))) {
             return $model->sendSms($phone);
         }

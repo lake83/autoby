@@ -25,7 +25,7 @@ $this->registerMetaTag(['name' => 'description',
 
                 <?php if (count($news) > 0): ?>
                         
-                <section class="main-ad col-xs-12 hidden-xs">
+                <section class="main-news col-xs-12 hidden-xs">
                     <div class="image" style="background: url('<?= SiteHelper::resized_image($news[0]['image'], 200) ?>')"></div>
                             
                     <div class="info">
@@ -47,7 +47,7 @@ $this->registerMetaTag(['name' => 'description',
                         
                 <?php if (count($news) > 0): $items = []; ?>
                         
-                <section class="ads col-xs-12">
+                <section class="news col-xs-12">
                     <span class="title col-xs-12">новости</span>
                             
                     <?php foreach ($news as $item){
@@ -55,9 +55,9 @@ $this->registerMetaTag(['name' => 'description',
                     }
                     echo Slick::widget([
                         'containerTag' => 'div',
-                        'containerOptions' => ['class' => 'ads-list ads-slider col-xs-12'],
+                        'containerOptions' => ['class' => 'news-list news-slider col-xs-12'],
                         'itemContainer' => 'div',
-                        'itemOptions' => ['class' => 'ads-item col-xs-12'],
+                        'itemOptions' => ['class' => 'news-item col-xs-12'],
                         'items' => $items,
                         'clientOptions' => [
                             'autoplay' => false,

@@ -34,10 +34,10 @@ use yii\helpers\Html;
                      <span class="text col-xs-12">Вам отправлено смс с кодом подтверждения</span>
                      
                      <div class="input-wrapper col-xs-12">
-                         <?= $form->field($model, 'sms')->textInput(['placeholder' => 'Код из смс', 'class' => 'confirm-code transition'])->label(false) ?>
+                         <?= $form->field($model, 'sms', ['enableAjaxValidation' => true])->textInput(['maxlength' => true, 'placeholder' => 'Код из смс', 'class' => 'confirm-code transition'])->label(false) ?>
                      </div>
                      
-                     <a href="" class="repeat-send-code transition">Отправить код повторно</a>
+                     <a href="#" class="repeat-send-code transition">Отправить код повторно</a>
                  </div>
                  
                  <div class="auth-agreement col-xs-12">Авторизуясь на сайте, я принимаю условия <a class="link transition" href="<?= $href = Url::to(['site/page', 'slug' => 'polzovatelskoe-soglasenie']) ?>" target="_blank">пользовательского соглашения</a> и даю согласие на обработку персональных данных в соответствии с законодательством Белорусии и <a class="link transition" href="<?= $href ?>" target="_blank">пользовательским соглашением</a>.</div>

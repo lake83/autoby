@@ -4,6 +4,11 @@
 /*
  * Variables (END)
  */
+@media screen and (min-width: 1240px) {
+    .container {
+        width: 1240px;
+    } 
+} 
 @media screen and (min-width: 992px) and (max-width: 1199px) {
   /*
    * Top navigation
@@ -195,19 +200,19 @@
    * Cars list (END)
    */
   /*
-   * Ads slider
+   * news slider
    */
-  .ads .ads-list .ads-item {
+  .news .news-list .news-item {
     width: 50%; }
-    .ads .ads-list .ads-item .image {
+    .news .news-list .news-item .image {
       width: 100%;
       margin-bottom: 15px; }
-    .ads .ads-list .ads-item .info {
+    .news .news-list .news-item .info {
       margin-left: 0;
       width: 100%; }
 
   /*
-   * Ads slider (END)
+   * news slider (END)
    */
   /*
    * Footer (END)
@@ -225,10 +230,10 @@
   /*
    * Main ad
    */
-  .main-ad .image {
+  .main-news .image {
     width: 100%;
     margin-bottom: 15px; }
-  .main-ad .info {
+  .main-news .info {
     margin-left: 0;
     width: 100%; }
 
@@ -297,17 +302,17 @@
    * Cars list (END)
    */
   /*
-   * Ads slider
+   * news slider
    */
-  .ads .ads-list .ads-item .image {
+  .news .news-list .news-item .image {
     width: 100%;
     margin-bottom: 15px; }
-  .ads .ads-list .ads-item .info {
+  .news .news-list .news-item .info {
     margin-left: 0;
     width: 100%; }
 
   /*
-   * Ads slider (END)
+   * news slider (END)
    */
   /*
    * Blog
@@ -327,10 +332,10 @@
    */
   .cabinet .cabinet-content {
     padding: 0 15px; }
-    .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image {
+    .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image {
       width: 100%;
       margin-bottom: 15px; }
-    .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info {
+    .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info {
       width: calc(100% - 70px); }
 
   /*
@@ -358,10 +363,10 @@
   /*
    * Main ad
    */
-  .main-ad .image {
+  .main-news .image {
     width: 100%;
     margin-bottom: 15px; }
-  .main-ad .info {
+  .main-news .info {
     margin-left: 0;
     width: 100%; }
 
@@ -432,17 +437,17 @@
    * Cars list (END)
    */
   /*
-   * Ads slider
+   * news slider
    */
-  .ads .ads-list .ads-item .image {
+  .news .news-list .news-item .image {
     width: 100%;
     margin-bottom: 15px; }
-  .ads .ads-list .ads-item .info {
+  .news .news-list .news-item .info {
     margin-left: 0;
     width: 100%; }
 
   /*
-   * Ads slider (END)
+   * news slider (END)
    */
   /*
    * Blog
@@ -462,16 +467,16 @@
    */
   .cabinet .cabinet-content {
     padding: 0 15px; }
-    .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image {
+    .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image {
       width: 100%;
       margin-bottom: 10px; }
-    .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info {
+    .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info {
       width: 100%;
       margin-bottom: 10px; }
-    .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions {
+    .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions {
       width: 100%;
       padding: 0 20px; }
-      .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap {
+      .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap {
         width: auto;
         margin-right: 15px;
         float: left; }
@@ -873,6 +878,11 @@
 
   /*
    * Footer (END)
-   */ }
-
+   */ 
+   .news .title {
+       font-size: 22px;
+       font-weight: 500;
+   }
+   
+   }
 /*# sourceMappingURL=media.css.map */

@@ -130,19 +130,47 @@
         return false;
     });
     
-    // Форма авторизации пользователя
-    $('#user-login').on('beforeSubmit', function() {
-        if ($(this).find('.has-error').length) {
+    // Форма авторизации пользователя, отправка SMS
+    $('#user-login .send, #user-login .repeat-send-code').on('click', function() {
+        var _this = $(this), n = 60;
+        if (_this.find('.has-error').length) {
             return false;
         } else {
-            $.post($(this).attr('action'), {phone: $('#loginform-phone').val()}, function(data) {
-                alert(data)
+            $.post(_this.attr('action'), {phone: $('#loginform-phone').val()}, function(data) {
+                if (data) {
+                    $('.sms-block').removeClass('hide');
+                    
+                    if (_this.hasClass('repeat-send-code')) {
+                        _this.addClass('hide');
+                        $('.field-loginform-sms').append('<div id="new_sms">Повторно можно будет отправить через: <span>' + n + '</span> c</div>');
+                        setTimeout(countDown,1000);
+                        function countDown()
+                        {
+                            n--;
+                            if (n > 0){
+                                setTimeout(countDown,1000);
+                                $('#new_sms span').text(n);
+                            } else {
+                                $('#new_sms').remove();
+                                _this.removeClass('hide');
+                            }
+                        }
+                    }
+                }
             });          
         }
         return false;
-    }).on('submit', function(e){
-        e.preventDefault();
     });
+    
+    // Форма авторизации пользователя
+    $('#loginform-sms').on('keyup', function() {
+        if ($(this).val().length == 4) {
+            $(this).submit();
+        }
+    });
+    
+    // Задержка отправки повторного SMS
+    
     
     // Вывод спецификаций
     $('.engine-type ul li a').on('click', function() {
@@ -207,13 +235,13 @@
         $('.filters .filters-group.more').removeClass('hidden-xs');
         $('.mobile-all-filters').addClass('open');
         $('.top-navigation .row').css('margin', '10px -10px 10px 0');
-        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .ads, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');
+        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');
     });
     $('.mobile-all-filters .filter-cancel').click(function(){
         $('.filters .filters-group.more').addClass('hidden-xs');
         $('.mobile-all-filters').removeClass('open');
         $('.top-navigation .row').removeAttr('style');
-        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .ads, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');        
+        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');        
     });
     $('.mobile-all-filters a.filter-reset, .filters .reset-filters a').click(function(){
         if ($(this).attr('href') == '#') {

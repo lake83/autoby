@@ -564,49 +564,49 @@ header {
 /*
  * Main ad
  */
-.main-ad {
+.main-news {
   padding: 0 0 10px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
-  .main-ad .image {
+  .main-news .image {
     float: left;
     width: 200px;
     height: 150px;
     background-repeat: no-repeat !important;
     background-size: cover !important; }
-    .main-ad .image img {
+    .main-news .image img {
       float: left;
       width: 100%; }
-  .main-ad .info {
+  .main-news .info {
     float: left;
     margin-left: 15px;
     width: calc(100% - 215px); }
-    .main-ad .info .category {
+    .main-news .info .category {
       padding: 0;
       font-size: 10px;
       text-transform: uppercase;
       color: rgba(0, 0, 0, 0.5);
       margin-bottom: 5px; }
-    .main-ad .info .title {
+    .main-news .info .title {
       padding: 0;
       margin-bottom: 10px;
       font-weight: 700;
       font-size: 18px;
       line-height: normal; }
-    .main-ad .info .description {
+    .main-news .info .description {
       padding: 0;
       max-height: 58px;
       overflow: hidden;
       font-size: 14px;
       color: #000; }
-    .main-ad .info .read-more {
+    .main-news .info .read-more {
       float: left;
       font-size: 14px;
       color: #157ee1; }
-      .main-ad .info .read-more:hover {
+      .main-news .info .read-more:hover {
         color: #db3727; }
-        .main-ad .info .read-more:hover i {
+        .main-news .info .read-more:hover i {
           color: #db3727; }
-      .main-ad .info .read-more i {
+      .main-news .info .read-more i {
         color: #157ee1;
         border: 1px solid rgba(0, 0, 0, 0.12);
         border-radius: 50%;
@@ -1146,11 +1146,11 @@ header {
  * Cars list (END)
  */
 /*
- * Ads list
+ * news list
  */
-.ads {
+.news {
   padding: 0; }
-  .ads .title {
+  .news .title {
     padding: 0;
     font-size: 31px;
     font-weight: 700;
@@ -1159,25 +1159,25 @@ header {
     letter-spacing: -.2px;
     color: #157ee1;
     margin-bottom: 20px; }
-  .ads .ads-list {
+  .news .news-list {
     padding: 0 0 15px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     margin-bottom: 0; }
-    .ads .ads-list .slick-next {
+    .news .news-list .slick-next {
       right: 25px;
       top: -35px;
       width: 25px;
       height: 35px;
       font-family: "Font Awesome 5 Free";
       text-align: center; }
-      .ads .ads-list .slick-next:before {
+      .news .news-list .slick-next:before {
         font-family: "Font Awesome 5 Free";
         content: "\f105";
         color: #666;
         font-size: 35px;
         font-weight: 700;
         display: inline-block; }
-    .ads .ads-list .slick-prev {
+    .news .news-list .slick-prev {
       right: 60px;
       left: auto;
       top: -35px;
@@ -1185,79 +1185,79 @@ header {
       height: 35px;
       font-family: "Font Awesome 5 Free";
       text-align: center; }
-      .ads .ads-list .slick-prev:before {
+      .news .news-list .slick-prev:before {
         font-family: "Font Awesome 5 Free";
         content: "\f104";
         color: #666;
         font-size: 35px;
         font-weight: 700;
         display: inline-block; }
-    .ads .ads-list .ads-item {
+    .news .news-list .news-item {
       padding: 0 5px; }
-      .ads .ads-list .ads-item .image {
+      .news .news-list .news-item .image {
         float: left;
         width: 100%;
         height: 210px;
         background-repeat: no-repeat !important;
         background-size: cover !important; }
-        .ads .ads-list .ads-item .image img {
+        .news .news-list .news-item .image img {
           float: left;
           width: 100%; }
-      .ads .ads-list .ads-item .info {
+      .news .news-list .news-item .info {
         float: left;
         margin-top: 10px;
         width: 100%; }
-        .ads .ads-list .ads-item .info .time {
+        .news .news-list .news-item .info .time {
           padding: 0;
           font-size: 10px;
           text-transform: uppercase;
           color: rgba(0, 0, 0, 0.5);
           margin-bottom: 5px; }
-        .ads .ads-list .ads-item .info .title {
+        .news .news-list .news-item .info .title {
           padding: 0;
           margin-bottom: 10px;
           line-height: normal; }
-          .ads .ads-list .ads-item .info .title a {
+          .news .news-list .news-item .info .title a {
             font-size: 18px;
             font-weight: 700;
             color: #000;
             line-height: normal;
             display: inline-block; }
-            .ads .ads-list .ads-item .info .title a:hover {
+            .news .news-list .news-item .info .title a:hover {
               color: #db3727; }
-        .ads .ads-list .ads-item .info .description {
+        .news .news-list .news-item .info .description {
           padding: 0;
           max-height: 58px;
           overflow: hidden;
           font-size: 14px;
           color: #000; }
-        .ads .ads-list .ads-item .info .read-more {
+        .news .news-list .news-item .info .read-more {
           float: left;
           font-size: 14px;
           color: #157ee1; }
-          .ads .ads-list .ads-item .info .read-more:hover {
+          .news .news-list .news-item .info .read-more:hover {
             color: #db3727; }
-            .ads .ads-list .ads-item .info .read-more:hover i {
+            .news .news-list .news-item .info .read-more:hover i {
               color: #db3727; }
-          .ads .ads-list .ads-item .info .read-more i {
+          .news .news-list .news-item .info .read-more i {
             color: #157ee1;
             border: 1px solid rgba(0, 0, 0, 0.12);
             border-radius: 50%;
             padding: 2px 5.5px; }
-  .ads .button-wrapper {
+  .news .button-wrapper {
     margin-top: 15px;
     padding: 0; }
-    .ads .button-wrapper a {
+    .news .button-wrapper a {
       display: inline-block;
       padding: 0;
       color: #157ee1;
       font-size: 17px;
       font-weight: 700; }
-      .ads .button-wrapper a:hover {
+      .news .button-wrapper a:hover {
         color: #db3727; }
 
 /*
- * Ads list (END)
+ * news list (END)
  */
 /*
  * Blog
@@ -1911,71 +1911,71 @@ header {
         margin-right: 0; }
     .cabinet .cabinet-content .tab-content .tab-pane {
       padding: 0; }
-      .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list {
+      .cabinet .cabinet-content .tab-content .tab-pane .my-news-list {
         padding: 0; }
-        .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item {
+        .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item {
           padding: 10px 0;
           border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image {
             float: left;
             width: 200px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image img {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image img {
               width: 100%; }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info {
             float: left;
             width: calc(100% - 270px); }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .number {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .number {
               font-size: 14px;
               color: rgba(0, 0, 0, 0.87);
               margin-bottom: 10px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .title {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .title {
               padding: 0 15px;
               margin-bottom: 10px; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .title a {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .title a {
                 float: left;
                 font-size: 16px;
                 color: #157ee1;
                 font-weight: 600; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price {
               font-size: 15px;
               color: #000; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price .r-price {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price .r-price {
                 padding: 3px 5px;
                 border-radius: 3px;
                 background: #5b0;
                 color: white;
                 font-size: 15px;
                 font-weight: 700; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price d.price {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price d.price {
                 padding: 3px 5px;
                 background: white;
                 color: #000;
                 font-size: 15px;
                 font-weight: 700; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .views {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .views {
               margin-top: 15px;
               color: #959595;
               font-size: 14px; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .views i {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .views i {
                 color: #959595;
                 margin-right: 5px; }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions {
             float: right;
             margin-right: 5px;
             width: 65px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap {
               margin-bottom: 5px;
               width: 100%;
               text-align: center; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a {
                 font-size: 14px; }
-                .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.edit {
+                .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.edit {
                   color: #157ee1; }
-                  .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.edit:hover {
+                  .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.edit:hover {
                     text-shadow: 0 0 1px #157ee1; }
-                .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.delete {
+                .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.delete {
                   color: #db3727; }
-                  .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.delete:hover {
+                  .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.delete:hover {
                     text-shadow: 0 0 1px #db3727; }
 
 /*
@@ -2123,8 +2123,14 @@ header {
 .list-view .empty {
     margin-top: 30px;
 }
-#ads-filter .help-block {
+.help-block {
     font-size: 12px;
+}
+#new_sms {
+    display: block;
+    position: relative;
+    top: 20px;
+    color: #959595;
 }
 /*
  * Footer
