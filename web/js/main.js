@@ -131,46 +131,45 @@
     });
     
     // Форма авторизации пользователя, отправка SMS
-    $('#user-login .send, #user-login .repeat-send-code').on('click', function() {
-        var _this = $(this), n = 60;
-        if (_this.find('.has-error').length) {
-            return false;
-        } else {
-            $.post(_this.attr('action'), {phone: $('#loginform-phone').val()}, function(data) {
+    $('#user-login').on('beforeSubmit', function() {
+        if ($(this).find('.has-error').length === 0 && ($('.sms-block').hasClass('hide') || $('.repeat-send-code').hasClass('hide'))) {
+            $.post($(this).attr('action'), {phone: $('#loginform-phone').val()}, function(data) {
                 if (data) {
                     $('.sms-block').removeClass('hide');
-                    
-                    if (_this.hasClass('repeat-send-code')) {
-                        _this.addClass('hide');
-                        $('.field-loginform-sms').append('<div id="new_sms">Повторно можно будет отправить через: <span>' + n + '</span> c</div>');
-                        setTimeout(countDown,1000);
-                        function countDown()
-                        {
-                            n--;
-                            if (n > 0){
-                                setTimeout(countDown,1000);
-                                $('#new_sms span').text(n);
-                            } else {
-                                $('#new_sms').remove();
-                                _this.removeClass('hide');
-                            }
-                        }
-                    }
+                    $('#user-login .send').attr('disabled', true);
                 }
-            });          
+            });
+            return false;         
         }
-        return false;
     });
     
     // Форма авторизации пользователя
     $('#loginform-sms').on('keyup', function() {
         if ($(this).val().length == 4) {
-            $(this).submit();
+            $('#user-login').submit();
         }
     });
     
     // Задержка отправки повторного SMS
-    
+    $('.repeat-send-code').on('click', function() {
+        var n = 60;
+        $('#user-login').submit();
+        $(this).addClass('hide');
+        $('.field-loginform-sms').append('<div id="new_sms">Повторно можно будет отправить через: <span>' + n + '</span> c</div>');
+        setTimeout(countDown,1000);
+        function countDown()
+        {
+            n--;
+            if (n > 0){
+                setTimeout(countDown,1000);
+                $('#new_sms span').text(n);
+            } else {
+                $('#new_sms').remove();
+                $('.repeat-send-code').removeClass('hide');
+            }
+        }
+        return false;
+    });
     
     // Вывод спецификаций
     $('.engine-type ul li a').on('click', function() {

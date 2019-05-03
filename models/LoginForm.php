@@ -25,6 +25,7 @@ class LoginForm extends Model
     {
         return [
             ['phone', 'required'],
+            ['phone', 'match', 'pattern' => '/^\+37 \(\d{3}\) \d{3}\-\d{2}\-\d{2}$/'],
             ['sms', 'integer'],
             ['sms', 'string', 'max' => 4],
             ['sms', 'validateSms']
