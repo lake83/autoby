@@ -213,12 +213,6 @@
             }
         });
     });
-    /*
-    $('#create-ad').on('beforeSubmit', function() {
-        event.preventDefault();
-        $('#create-ad').data('yiiActiveForm').submitting = true;
-        $('#create-ad').yiiActiveForm('validate');
-    });*/
     
 //Show - Hide All-filters-anchor and animate to filters
     filterScroll();
