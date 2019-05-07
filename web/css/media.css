@@ -73,6 +73,10 @@
     .cars-list .list-item .info-wrapper .mileage {
       width: 15%;
       font-size: 16px; }
+      
+   .file-preview .file-preview-frame {
+       width: auto;
+   }
 
   /*
    * Cars list (END)
@@ -157,6 +161,10 @@
    */
   footer .footer .footer-menu-wrapper .footer-menu .menu-item {
     padding: 0 9px; }
+    
+   .file-preview .file-preview-frame {
+       width: auto;
+   }
 
   /*
    * Footer (END)
@@ -885,6 +893,8 @@
        font-size: 22px;
        font-weight: 500;
    }
-   
+   .file-preview .file-preview-frame {
+       width: auto;
+   }
    }
 /*# sourceMappingURL=media.css.map */
