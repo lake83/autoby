@@ -157,9 +157,10 @@ class ClientController extends Controller
      */
     public function actionSortImage($ad_id)
     {
-        if ($model = Ads::findOne(['id' => $ad_id, 'is_active' => 1])) {
-            $model->image = Yii::$app->request->post('images');
-            if ($model->save()) {
+        $images = Yii::$app->request->post('images');
+        $conection = Yii::$app->db;
+        if (($model = $conection->createCommand('SELECT image FROM ads WHERE id=:id AND is_active=1')->bindParam(':id', $ad_id)) && $model !== $images) {
+            if ($conection->createCommand()->update('ads', ['image' => $images], 'id=:id')->bindParam(':id', $ad_id)->execute()) {
                 return true;
             }
         }
