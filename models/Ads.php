@@ -5,6 +5,9 @@ namespace app\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\caching\TagDependency;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
+use yii\helpers\Inflector;
 
 /**
  * This is the model class for table "{{%ads}}".
@@ -36,6 +39,9 @@ class Ads extends \yii\db\ActiveRecord
     public $brand;
     public $auto_model;
     public $region;
+    public $rules;
+    
+    public $old_image = [];
     
     /**
      * {@inheritdoc}
@@ -43,6 +49,11 @@ class Ads extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%ads}}';
+    }
+    
+    public function formName()
+    {
+        return '';
     }
     
     /**
@@ -61,14 +72,17 @@ class Ads extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['catalog_id', 'user_id', 'issue_year', 'capacity', 'type', 'price', 'text', 'engine_type', 'mileage', 'transmission', 'color', 'drive_type', 'doors', 'city_id'], 'required'],
+            [['catalog_id', 'user_id', 'issue_year', 'capacity', 'type', 'condition', 'price', 'text', 'engine_type', 'mileage', 'transmission', 'color', 'drive_type', 'doors', 'city_id'], 'required'],
             [['catalog_id', 'type', 'condition', 'engine_type', 'mileage', 'transmission', 'drive_type', 'doors', 'color', 'city_id', 'is_active', 'created_at', 'updated_at'], 'integer'],
             [['capacity', 'price'], 'number'],
-            [['text', 'image'], 'string'],
+            ['text', 'string'],
+            ['image', 'string', 'except' => 'client'],
             [['issue_year'], 'string', 'max' => 4],
-            [['doors'], 'string', 'max' => 1],
             [['modification'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => false, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']]
+            [['user_id'], 'exist', 'skipOnError' => false, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['image', 'file', 'skipOnEmpty' => true, 'extensions' => ['jpg', 'png', 'jpeg', 'JPG', 'JPEG', 'PNG'], 'checkExtensionByMimeType' => false, 'maxFiles' => 30, 'maxSize' => 8 * 1024 * 1024, 'on' => 'client'],
+            [['brand', 'auto_model'], 'required', 'on' => 'client'],
+            ['rules', 'required', 'on' => 'client', 'requiredValue' => 1, 'message' => 'Вы должны согласится с правилами подачи объявлений.']
         ];
     }
 
@@ -101,7 +115,8 @@ class Ads extends \yii\db\ActiveRecord
             'city_id' => 'Город',
             'is_active' => 'Активно',
             'created_at' => 'Создан',
-            'updated_at' => 'Обновлен'
+            'updated_at' => 'Обновлен',
+            'rules' => ''
         ];
     }
     
@@ -110,8 +125,9 @@ class Ads extends \yii\db\ActiveRecord
      */
     public function beforeSave($insert)
     {
-        $this->image = trim(str_replace(',,', ',', $this->image), ',');
-        
+        if (is_string($this->image)) {
+            $this->image = trim(str_replace(',,', ',', $this->image), ',');
+        }
         return parent::beforeSave($insert);
     }
     
@@ -125,7 +141,9 @@ class Ads extends \yii\db\ActiveRecord
         } elseif (!empty($this->image)) {
             $this->image = [$this->image];
         }
-        parent::afterFind();
+        $this->old_image = $this->image;
+        
+        return parent::afterFind();
     }
     
     /**
@@ -133,9 +151,17 @@ class Ads extends \yii\db\ActiveRecord
      */
     public function afterDelete()
     {
+        if (!empty($this->image)) {
+            $dirs = FileHelper::findDirectories(Yii::$app->basePath . '/web/images/uploads/', ['recursive' => false]);
+            foreach ($this->image as $image) {
+                foreach ($dirs as $dir) {
+                    FileHelper::unlink($dir . '/' . $image);
+                }
+            }
+        }
         TagDependency::invalidate(Yii::$app->cache, 'ads');
         
-        parent::afterDelete();
+        return parent::afterDelete();
     }
     
     /**
@@ -143,6 +169,21 @@ class Ads extends \yii\db\ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
+        if (!empty($this->image) && is_array($this->image)) {
+            $path = Yii::$app->basePath . '/web/images/uploads/source/Ads/' . $this->user_id . '/';
+            FileHelper::createDirectory($path);
+            $images = [];
+            foreach (UploadedFile::getInstances($this, 'image') as $key => $image) {
+                $title = Inflector::slug($image->baseName) . '_' . $this->id . '_' . $key . '.' . $image->extension;
+                $image->saveAs($path . $title);
+                $images[] = 'Ads/' . $this->user_id . '/' .$title;
+            }
+            if (!empty($this->old_image)) {
+                $images = array_merge($this->old_image, $images);            
+            }        
+            $this->image = implode(',', $images);
+            $this->save();
+        }
         TagDependency::invalidate(Yii::$app->cache, 'ads');
         
         return parent::afterSave($insert, $changedAttributes);

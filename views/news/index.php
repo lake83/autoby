@@ -17,7 +17,7 @@ use yii\widgets\ListView;
             <div class="main-content col-xs-12 col-md-9">
                       
                 <section class="blog col-xs-12">
-                    <span class="title col-xs-12">Новости</span>
+                    <h1 class="title col-xs-12">Новости</h1>
                             
                     <?php Pjax::begin();
                     

@@ -22,7 +22,7 @@ use yii\helpers\Html;
             <div class="main-content col-xs-12 col-md-9">
                 
                 <section class="filters buy-car col-xs-12">
-                    <span class="title hidden-xs col-xs-12">Выкуп авто</span>
+                    <h1 class="title hidden-xs col-xs-12">Выкуп авто</h1>
                     
                     <?php if (Yii::$app->session->hasFlash('buyCarFormSubmitted')): ?>
                     

@@ -195,6 +195,31 @@
         return false;
     });
     
+    // Продолжить при создании объявления
+    $('#create-ad .continue').click(function(){
+        $('#create-ad .step.hidden, #create-ad .continue-wrapper.hidden').removeClass('hidden');
+        $('#create-ad .continue-wrapper.more').addClass('hidden');
+    });
+    
+    // Сортировка изображений объявления
+    $('#image').on('filesorted', function(event, params) {
+        var images = [];
+        $.each(params.stack, function(key, value) {
+            images.push(value.key);
+        });
+        $.post('/client/sort-image?ad_id=' + $('#create-ad').data('ad_id'), {images: images.join(',')}, function(data) {
+            if (data) {
+                $('.file-preview-status.text-success').html('<p class="msg-success"><button type="button" class="close"><span aria-hidden="true" onclick="$(\'.msg-success\').remove()">×</span></button>Изменение позиции сохранено.</p>');
+            }
+        });
+    });
+    /*
+    $('#create-ad').on('beforeSubmit', function() {
+        event.preventDefault();
+        $('#create-ad').data('yiiActiveForm').submitting = true;
+        $('#create-ad').yiiActiveForm('validate');
+    });*/
+    
 //Show - Hide All-filters-anchor and animate to filters
     filterScroll();
     

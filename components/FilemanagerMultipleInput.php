@@ -60,7 +60,7 @@ class FilemanagerMultipleInput extends InputWidget
                 if (is_array($this->model->{$this->attribute})) {
                     foreach ($this->model->{$this->attribute} as $img) {
                         $items[$img] = ['content' => '<div>' .
-                            Html::img('/images/uploads/thumbs/'. $img) .
+                            Html::img(SiteHelper::resized_image($img, 120, 100)) .
                             '<a href="#" onclick="js:delImage(\'' . $img . '\', \'' . $id . '\');$(this).parents(\'li\').remove();return false;">&#10060;</a>' .
                         '</div>'];
                     }

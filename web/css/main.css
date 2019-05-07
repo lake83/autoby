@@ -572,7 +572,8 @@ header {
     width: 200px;
     height: 150px;
     background-repeat: no-repeat !important;
-    background-size: cover !important; }
+    background-size: contain !important;
+    background-position: center center !important; }
     .main-news .image img {
       float: left;
       width: 100%; }
@@ -1060,7 +1061,8 @@ header {
       width: 200px;
       height: 150px;
       background-repeat: no-repeat !important;
-      background-size: cover !important; }
+      background-size: contain !important;
+      background-position: center center !important; }
       .cars-list .list-item .image img {
         width: 100%; }
     .cars-list .list-item .info-wrapper {
@@ -1199,7 +1201,8 @@ header {
         width: 100%;
         height: 210px;
         background-repeat: no-repeat !important;
-        background-size: cover !important; }
+        background-size: contain !important;
+        background-position: center center !important; }
         .news .news-list .news-item .image img {
           float: left;
           width: 100%; }
@@ -1282,7 +1285,8 @@ header {
       width: 200px;
       height: 150px;
       background-repeat: no-repeat !important;
-      background-size: cover !important; }
+      background-size: contain !important;
+      background-position: center center !important; }
       .blog .post .image img {
         float: left;
         width: 100%; }
@@ -1775,23 +1779,6 @@ header {
             color: #157ee1; }
         .product-create .group-wrapper .btn-group .btn i {
           color: #959595; }
-      .product-create .group-wrapper .btn-group textarea {
-        text-align: left;
-        background: none;
-        box-shadow: none;
-        font-size: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        width: 100%;
-        min-height: 100px;
-        resize: vertical;
-        padding: 10px 15px;
-        border-radius: 4px; }
-        .product-create .group-wrapper .btn-group textarea.active, .product-create .group-wrapper .btn-group textarea:hover, .product-create .group-wrapper .btn-group textarea:focus {
-          border: 1px solid #157ee1;
-          color: #000; }
-          .product-create .group-wrapper .btn-group textarea.active i, .product-create .group-wrapper .btn-group textarea:hover i, .product-create .group-wrapper .btn-group textarea:focus i {
-            color: #157ee1; }
       .product-create .group-wrapper .btn-group .dropdown-menu {
         background: white;
         margin: 4px 0 0;
@@ -1850,7 +1837,8 @@ header {
       height: 35px;
       line-height: 35px;
       border-radius: 5px;
-      cursor: pointer; }
+      cursor: pointer;
+      border: none; }
       .product-create .continue-wrapper .continue i {
         color: white;
         margin-top: 2px; }
@@ -1911,71 +1899,75 @@ header {
         margin-right: 0; }
     .cabinet .cabinet-content .tab-content .tab-pane {
       padding: 0; }
-      .cabinet .cabinet-content .tab-content .tab-pane .my-news-list {
+      .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list {
         padding: 0; }
-        .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item {
+        .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item {
           padding: 10px 0;
           border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image {
             float: left;
-            width: 200px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .image img {
+            width: 200px;
+            height: 150px;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+            background-position: center center !important; }
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .image img {
               width: 100%; }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info {
             float: left;
             width: calc(100% - 270px); }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .number {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .number {
               font-size: 14px;
               color: rgba(0, 0, 0, 0.87);
               margin-bottom: 10px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .title {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .title {
               padding: 0 15px;
               margin-bottom: 10px; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .title a {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .title a {
                 float: left;
                 font-size: 16px;
                 color: #157ee1;
                 font-weight: 600; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price {
               font-size: 15px;
               color: #000; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price .r-price {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price .r-price {
                 padding: 3px 5px;
                 border-radius: 3px;
                 background: #5b0;
                 color: white;
                 font-size: 15px;
                 font-weight: 700; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .price d.price {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .price d.price {
                 padding: 3px 5px;
                 background: white;
                 color: #000;
                 font-size: 15px;
                 font-weight: 700; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .views {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .views {
               margin-top: 15px;
               color: #959595;
               font-size: 14px; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .info .views i {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .info .views i {
                 color: #959595;
                 margin-right: 5px; }
-          .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions {
+          .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions {
             float: right;
             margin-right: 5px;
             width: 65px; }
-            .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap {
+            .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap {
               margin-bottom: 5px;
               width: 100%;
               text-align: center; }
-              .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a {
+              .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a {
                 font-size: 14px; }
-                .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.edit {
+                .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.edit {
                   color: #157ee1; }
-                  .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.edit:hover {
+                  .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.edit:hover {
                     text-shadow: 0 0 1px #157ee1; }
-                .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.delete {
+                .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.delete {
                   color: #db3727; }
-                  .cabinet .cabinet-content .tab-content .tab-pane .my-news-list .list-item .actions .action-wrap a.delete:hover {
+                  .cabinet .cabinet-content .tab-content .tab-pane .my-ads-list .list-item .actions .action-wrap a.delete:hover {
                     text-shadow: 0 0 1px #db3727; }
 
 /*
@@ -2131,6 +2123,20 @@ header {
     position: relative;
     top: 20px;
     color: #959595;
+}
+.file-preview .file-preview-frame {
+    width:calc(33.33% - 16px);
+}
+.krajee-default.file-preview-frame .kv-file-content {
+    width: 170px;
+    height: 120px;
+    line-height: 120px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.krajee-default .file-footer-caption {
+    margin: 0;
 }
 /*
  * Footer

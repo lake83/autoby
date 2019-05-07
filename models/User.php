@@ -8,6 +8,7 @@ use yii\web\ForbiddenHttpException;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\FileHelper;
 
 /**
  * User model
@@ -124,6 +125,17 @@ class User extends ActiveRecord implements IdentityInterface
             throw new ForbiddenHttpException('Должен быть хотя бы один действующий администратор.');
         }
         return parent::beforeDelete();
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        foreach (FileHelper::findDirectories(Yii::$app->basePath . '/web/images/uploads/', ['recursive' => false]) as $dir) {
+            FileHelper::removeDirectory($dir . '/Ads/' . $this->id);
+        }
+        return parent::afterDelete();
     }
     
     /**

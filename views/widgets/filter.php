@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use kartik\depdrop\DepDrop;
 use yii\helpers\Html;
+use app\models\Catalog;
 
 /* @var $this yii\web\View */
 /* @var $filter app\models\FilterForm */
@@ -15,6 +16,16 @@ use yii\helpers\Html;
 /* @var $capacity array */
 
 $request = Yii::$app->request;
+$h1 = 'Автомобили';
+if ($request->get('brand')) {
+    $h1 = 'Купить ' . (isset($cars['Популярные'][$request->get('brand')]) ? $cars['Популярные'][$request->get('brand')] : $cars['Все'][$request->get('brand')]);
+}
+if ($request->get('auto_model')) {
+    $h1.= ' ' . Catalog::find()->select(['name'])->where(['id' => $request->get('auto_model')])->scalar();
+}
+if ($request->get('generation')) {
+    $h1.= ' ' . Catalog::find()->select(['name'])->where(['id' => $request->get('generation')])->scalar();
+}
 ?>
 
 <div class="mobile-all-filters">
@@ -26,7 +37,7 @@ $request = Yii::$app->request;
 </div>
                         
 <section class="filters col-xs-12" id="filters">
-    <span class="title hidden-xs col-xs-12">Автомобили</span>
+    <h1 class="title col-xs-12"><?= $h1 ?></h1>
                             
     <?php $form = ActiveForm::begin(['id' => 'ads-filter', 'method' => 'get', 'action' => Url::to(['cars/all']), 'options' => ['data-params' => '']]) ?>
                             
@@ -89,6 +100,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('type'),
                             'placeholder' => 'Кузов'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -103,6 +117,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('transmission'),
                             'placeholder' => 'Коробка'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -116,6 +133,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('year_from'),
                             'placeholder' => 'Год от'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -129,6 +149,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('year_to'),
                             'placeholder' => 'Год до'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                     
@@ -145,6 +168,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('engine'),
                             'placeholder' => 'Двигатель'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -159,6 +185,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('drive'),
                             'placeholder' => 'Привод'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -186,6 +215,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('capacity_from'),
                             'placeholder' => 'Обьем от, л'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         
@@ -199,6 +231,9 @@ $request = Yii::$app->request;
                         'options' => [
                             'value' => $request->get('capacity_to'),
                             'placeholder' => 'до'
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true
                         ]
                     ])->label(false) ?>
                                         

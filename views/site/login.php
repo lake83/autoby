@@ -19,7 +19,7 @@ use yii\helpers\Html;
                      <img src="images/logo.png" alt="">
                  </a>
              </div>
-             <span class="title col-xs-12">Вход на сайт</span>
+             <h1 class="title col-xs-12">Вход на сайт</h1>
              
              <?php $form = ActiveForm::begin(['id' => 'user-login']) ?>
              

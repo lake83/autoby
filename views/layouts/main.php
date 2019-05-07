@@ -47,7 +47,7 @@ $params = Yii::$app->params;
                                 <?php else: ?>
                                 
                                 <div class="login visible-xs">
-                                    <a href="<?= Url::to(['site/logout']) ?>" class="transition" data-method="post">Выйти</a>
+                                    <a href="<?= Url::to(['client/cabinet']) ?>" class="transition">Мои объявления</a>
                                 </div>
                                 
                                 <?php endif ?>
@@ -105,11 +105,11 @@ $params = Yii::$app->params;
                         <?php else: ?>
                                 
                         <div class="login hidden-xs">
-                            <a href="<?= Url::to(['site/logout']) ?>" class="transition" data-method="post">Выйти</a>
+                            <a href="<?= Url::to(['client/cabinet']) ?>" class="transition">Мои объявления</a>
                         </div>
                         
                         <div class="add-offer">
-                            <a href="<?= Url::to(['user/create-ad']) ?>" class="transition"><i class="fas fa-plus"></i> <span class="hidden-xs">Продать</span></a>
+                            <a href="<?= Url::to(['client/create']) ?>" class="transition"><i class="fas fa-plus"></i> <span class="hidden-xs">Продать</span></a>
                         </div>
                                 
                         <?php endif ?>
