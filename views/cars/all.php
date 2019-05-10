@@ -17,7 +17,7 @@ $sort = Yii::$app->request->get('sort');
         <div class="row">
             <div class="main-content col-xs-12 col-md-9">
                 
-                <?= \app\components\FilterWidget::widget() ?>
+                <?= \app\components\FilterWidget::widget(['ads_count' => $dataProvider->getTotalCount()]) ?>
                 
                 <section class="cars-list col-xs-12">
                     <div class="filters-group hidden-xs">

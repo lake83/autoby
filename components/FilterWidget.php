@@ -9,6 +9,7 @@ use app\models\Catalog;
 class FilterWidget extends Widget
 {
     public $catalog = false;
+    public $ads_count;
     
     public function run()
     {
@@ -21,7 +22,7 @@ class FilterWidget extends Widget
             return $this->render($this->catalog ? '/widgets/filter_catalog' : '/widgets/filter', [
                 'filter' => new FilterForm,
                 'cars' => Catalog::getBrands(),
-                'ads_count' => Catalog::getAdsCount(),
+                'ads_count' => $this->ads_count ? $this->ads_count : array_sum(Catalog::getAdsCount()),
                 'years' => array_combine($years, $years),
                 'capacity' => array_combine($capacity, $capacity)
             ]);
