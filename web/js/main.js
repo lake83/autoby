@@ -100,6 +100,7 @@
                         $('.car-logos').remove();
                         $('#select-list').html(data);
                         $('#select-list').show();
+                        filterCount();
                     }
                 });
             }
