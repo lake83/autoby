@@ -253,15 +253,15 @@
     
     $('.filters .filters-wrapper .m-all-filters').click(function(){
         $('.filters .filters-group.more').removeClass('hidden-xs');
-        $('.mobile-all-filters').addClass('open');
+        $('.mobile-all-filters, #filters').addClass('open');
         $('.top-navigation .row').css('margin', '10px -10px 10px 0');
-        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .car-logos, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');
+        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .car-logos, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item, #select-list').toggleClass('hidden-xs');
     });
     $('.mobile-all-filters .filter-cancel').click(function(){
         $('.filters .filters-group.more').addClass('hidden-xs');
-        $('.mobile-all-filters').removeClass('open');
+        $('.mobile-all-filters, #filters').removeClass('open');
         $('.top-navigation .row').removeAttr('style');
-        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .car-logos, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item').toggleClass('hidden-xs');        
+        $('.top-navigation .navigation-left, .top-navigation .navigation-right, .car-marks, .car-logos, .news, footer, .reset-filters, .filters-wrapper .blue-btn, .mob-sort, .list-item, #select-list').toggleClass('hidden-xs');        
     });
     $('.mobile-all-filters a.filter-reset, .filters .reset-filters a').click(function(){
         if ($(this).attr('href') == '#') {
