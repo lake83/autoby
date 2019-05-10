@@ -287,7 +287,7 @@ if ($request->get('generation')) {
                         
 <div id="select-list">
                         
-    <section class="car-logos flex col-xs-12">
+    <section class="car-logos flex col-xs-12 hidden-xs">
                             
         <?php foreach (['Audi', 'BMW', 'Ford', 'Peugeot', 'Mercedes-Benz', 'Nissan', 'Opel', 'Renault', 'Toyota', 'Volkswagen'] as $name): ?>
                             

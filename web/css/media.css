@@ -720,7 +720,7 @@
     #filters:not(.open) .select2-container--bootstrap.select2-container--open .select2-selection {
         border-bottom: 1px solid #66afe9;
     }
-    #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b, #filters:not(.open) .select2-container--bootstrap.select2-container--open .select2-selection .select2-selection__arrow b {
+    #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__arrow b, #filters:not(.open) .select2-container--bootstrap.select2-container--open .select2-selection .select2-selection__arrow b, .select2-container--disabled {
         display: none;
     }
     #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__placeholder, #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__rendered {

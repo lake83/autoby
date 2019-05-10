@@ -148,7 +148,11 @@ class FilterController extends Controller
     public function actionGenerations($selected = '')
     {
         if ($_POST['depdrop_parents'][1] && ($model = Catalog::findOne(['id' => $_POST['depdrop_parents'][1], 'is_active' => 1]))) {
-            return $this->getList($model->children()->select(['id', 'name'])->andWhere(['is_active' => 1])->asArray()->all(), $selected);
+            $result = [];
+            foreach ($model->children()->select(['id', 'name', 'year_from', 'year_to'])->andWhere(['is_active' => 1])->asArray()->all() as $item) {
+                $result[] = ['id' => $item['id'], 'name' => $item['name'] . ' (' . $item['year_from'] . '-' . $item['year_to'] . ')'];
+            }
+            return $this->getList($result, $selected);
         }
         return $this->fail;
     }
