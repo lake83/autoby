@@ -285,7 +285,7 @@ if ($request->get('generation')) {
                         
 <div data-href="#filters" class="all-filters-anchor transition text-center hidden-xs"><i class="fas fa-angle-up"></i> Все параметры</div>
                         
-<div id="select-list" class="hidden-xs">
+<div id="select-list">
                         
     <section class="car-logos flex col-xs-12">
                             

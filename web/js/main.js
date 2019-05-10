@@ -173,9 +173,11 @@
     
     // Вывод спецификаций
     $('.engine-type ul li a').on('click', function() {
+        $('.engine-type ul li').removeClass('active');
         $.post(window.location.href, {id: $(this).attr('href')}, function(data) {
             $('#specification').html(data);
         });
+        $(this).closest('li.list-item').addClass('active');
         return false;
     });
     

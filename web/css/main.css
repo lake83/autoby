@@ -1993,8 +1993,10 @@ header {
         padding: 0;
         margin-bottom: 0; }
         .catalog .engine-types .engine-type .engine-list .list-item {
-          padding: 0;
+          padding: 5px;
           margin-bottom: 5px; }
+          .catalog .engine-types .engine-list .list-item.active {
+            background-color: #e0e0e0; }
           .catalog .engine-types .engine-type .engine-list .list-item .name {
             float: left;
             width: 30%;
@@ -2138,6 +2140,7 @@ header {
 .krajee-default .file-footer-caption {
     margin: 0;
 }
+
 /*
  * Footer
  */

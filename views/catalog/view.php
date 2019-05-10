@@ -43,9 +43,9 @@ $request = Yii::$app->request;
                         
                             <ul class="engine-list col-xs-12">
                         
-                                <?php foreach ($items as $item): ?>
+                                <?php foreach ($items as $key => $item): ?>
                             
-                                <li class="list-item col-xs-12">
+                                <li class="list-item col-xs-12<?= $key == 0 ? ' active' : '' ?>">
                                     <span class="name"><a href="<?= $item['id'] ?>"><?= $item['capacity'] ?></a></span>
                                     <span class="power"><?= $item['power'] ?> л.c. <?= $item['drive'] ?></span>
                                     <span class="type"><?= $item['transmission'] ?></span>
