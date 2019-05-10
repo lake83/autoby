@@ -42,7 +42,7 @@ $sort = Yii::$app->request->get('sort');
                         <span class="text"><b>Сортировать по:</b></span>
                                 
                         <ul class="sort-list col-xs-12">
-                            <li class="sort-item transition<?= $sort == 'created_at-desc' ? ' active' : '' ?>"><a href="created_at-desc">актуальности</a></li>
+                            <li class="sort-item transition<?= $sort == 'created_at-desc' || $sort == null ? ' active' : '' ?>"><a href="created_at-desc">актуальности</a></li>
                             <li class="sort-item transition<?= $sort == 'price-asc' ? ' active' : '' ?>"><a href="price-asc">дешевле</a></li>
                             <li class="sort-item transition<?= $sort == 'price-desc' ? ' active' : '' ?>"><a href="price-desc">дороже</a></li>
                             <li class="sort-item transition<?= $sort == 'issue_year-asc' ? ' active' : '' ?>"><a href="issue_year-asc">старее</a></li>
