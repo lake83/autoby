@@ -269,7 +269,7 @@ if ($request->get('generation')) {
             <div class="btn-wrapper">
                 <?php if ($ads_count): ?>
                                     
-                <?= Html::submitButton(Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}', ['n' => $ads_count]), ['class' => 'blue-btn hidden-xs transition']) ?>
+                <?= Html::submitButton(Yii::t('app', 'Показать <span>{n, plural, =0{#</span> предложений} =1{#</span> предложене} one{#</span> предложене} few{#</span> предложения} many{#</span> предложений} other{#</span> предложений}}', ['n' => $ads_count]), ['class' => 'blue-btn transition']) ?>
                                     
                 <?php else: ?>
                                     
