@@ -52,19 +52,19 @@ $params = Yii::$app->params;
                                 
                                 <?php endif ?>
                                
-                                <div class="menu-item transition">
+                                <div class="menu-item transition hidden-xs">
                                     <a href="<?= Url::to(['cars/all']) ?>" class="transition">Автомобили</a>
                                 </div>
 
-                                <div class="menu-item transition">
+                                <div class="menu-item transition hidden-xs">
                                     <a href="<?= Url::to(['news/index']) ?>" class="transition">Новости</a>
                                 </div>
 
-                                <div class="menu-item transition">
-                                    <a href="<?= Url::to(['catalog/index']) ?>" class="transition">Каталог</a>
+                                <div class="menu-item transition hidden-xs">
+                                    <a href="<?= Url::to(['catalog/index']) ?>" class="transition">Характеристики</a>
                                 </div>
                                 
-                                <div class="menu-item transition">
+                                <div class="menu-item transition hidden-xs">
                                     <a href="<?= Url::to(['site/buy-car']) ?>" class="transition">Выкуп авто</a>
                                 </div>
                                <div class="footer-menu visible-xs">

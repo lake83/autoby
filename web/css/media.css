@@ -553,7 +553,6 @@
         width: 60px;
         height: 100%; }
       header .header .header-menu-wrapper .login {
-        border-bottom: 1px solid white;
         float: left;
         width: 100%; }
         header .header .header-menu-wrapper .login a {
@@ -725,6 +724,9 @@
     }
     #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__placeholder, #filters:not(.open) .select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
         font-size: 16px;
+    }
+    .top-navigation .navigation-left .item.visible-xs {
+        display: inline-block !important;
     }
 
   /*

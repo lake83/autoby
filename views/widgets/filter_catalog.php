@@ -15,7 +15,7 @@ $request = Yii::$app->request;
 ?>
                         
 <section class="filters col-xs-12" id="filters">
-    <span class="title hidden-xs col-xs-12">Каталог</span>
+    <span class="title hidden-xs col-xs-12">Характеристики</span>
                             
     <?php $form = ActiveForm::begin(['id' => 'catalog-filter', 'method' => 'get', 'action' => Url::to(['catalog/view'])]) ?>
                             

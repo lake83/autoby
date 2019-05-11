@@ -2,6 +2,7 @@
 	
 use dosamigos\multiselect\MultiSelect;
 use yii\web\JsExpression;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 ?>
@@ -9,23 +10,20 @@ use yii\web\JsExpression;
     <div class="container">
         <div class="row">
             <nav class="navigation-left">
-                <div class="item active">
+                <div class="item active hidden-xs">
                     <a href="" class="transition">Объявления</a>
                 </div>
-                <div class="item">
-                    <a href="" class="transition">Объявления1</a>
+                <div class="item visible-xs">
+                    <a href="<?= Url::to(['cars/all']) ?>" class="transition">Автомобили</a>
                 </div>
-                <div class="item">
-                    <a href="" class="transition">Объявления1</a>
+                <div class="item visible-xs">
+                    <a href="<?= Url::to(['news/index']) ?>" class="transition">Новости</a>
                 </div>
-                <div class="item">
-                    <a href="" class="transition">Объявления1</a>
+                <div class="item visible-xs">
+                    <a href="<?= Url::to(['catalog/index']) ?>" class="transition">Характеристики</a>
                 </div>
-                <div class="item">
-                    <a href="" class="transition">Объявления1</a>
-                </div>
-                <div class="item">
-                    <a href="" class="transition">Объявления1</a>
+                <div class="item visible-xs">
+                    <a href="<?= Url::to(['site/buy-car']) ?>" class="transition">Выкуп авто</a>
                 </div>
             </nav>  
                         
