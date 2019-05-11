@@ -63,8 +63,8 @@
     {
         if ($('#ads-filter').length) {
             var params = filterParams('#ads-filter');
+            $('#ads-filter').attr('data-params', params);
             if (params && params != $('#ads-filter').attr('data-params')) {
-                $('#ads-filter').attr('data-params', params);
                 $.ajaxSetup({async: false});
                 $.post('/filter/ads-count', {params: params}, function(data) {
                     if (data === 0) {
@@ -90,10 +90,11 @@
     // Получить и вывести список моделей
     $('#auto_model').on('depdrop:afterChange', function(event, id, value) {
         if ($('#ads-filter').attr('action') == '/cars/all') {
-            if ($('#ads-filter').attr('data-params').indexOf('brand') !== -1 && $('#ads-filter').attr('data-params').indexOf('auto_model') !== -1) {
+            var params = $('#ads-filter').attr('data-params');
+            if (params.indexOf('brand') !== -1 && params.indexOf('auto_model') !== -1) {
                 $('#select-list').empty();
             }
-            if (value && $('#ads-filter').attr('data-params').indexOf('auto_model') == -1 && !$('.btn-wrapper .empty').length) {
+            if (value && params.indexOf('auto_model') == -1 && !$('.btn-wrapper .empty').length) {
                 $('#select-list').hide();
                 $.post('/filter/select-list', {id: value}, function(data) {
                     if (data){
