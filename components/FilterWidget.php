@@ -22,7 +22,8 @@ class FilterWidget extends Widget
             return $this->render($this->catalog ? '/widgets/filter_catalog' : '/widgets/filter', [
                 'filter' => new FilterForm,
                 'cars' => Catalog::getBrands(),
-                'ads_count' => $this->ads_count ? $this->ads_count : array_sum(Catalog::getAdsCount()),
+                'ads_count' => ($ads = Catalog::getAdsCount()),
+                'all_ads_count' => $this->ads_count ? $this->ads_count : array_sum($ads),
                 'years' => array_combine($years, $years),
                 'capacity' => array_combine($capacity, $capacity)
             ]);

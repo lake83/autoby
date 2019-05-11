@@ -397,7 +397,7 @@ if (!$model->isNewRecord) {
                                             <div class="checkbox">
                                                 <label class="transition noselect" style="padding-left:0">
                                                         
-                                                    <?= $form->field($model, 'rules', ['template' => '{input}Я ознакомлен с <a href="' . Url::to(['site/page', 'slug' => 'pravila-podaci-obavlenia']) . '">правилами подачи</a> обьявлений и согласен на нанесение рекламного логотипа avtoby.by на занруженные мной фотографии.{error}'])->checkbox() ?>
+                                                    <?= $form->field($model, 'rules', ['template' => '{input}Я ознакомлен с <a href="' . Url::to(['site/page', 'slug' => 'pravila-podaci-obavlenia']) . '">правилами подачи</a> обьявлений и согласен на нанесение рекламного логотипа autoby.by на занруженные мной фотографии.{error}'])->checkbox() ?>
 
                                                 </label>
                                             </div>
