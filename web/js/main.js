@@ -63,8 +63,9 @@
     {
         if ($('#ads-filter').length) {
             var params = filterParams('#ads-filter');
-            $('#ads-filter').attr('data-params', params);
+            
             if (params && params != $('#ads-filter').attr('data-params')) {
+                $('#ads-filter').attr('data-params', params);
                 $.ajaxSetup({async: false});
                 $.post('/filter/ads-count', {params: params}, function(data) {
                     if (data === 0) {
@@ -90,7 +91,7 @@
     // Получить и вывести список моделей
     $('#auto_model').on('depdrop:afterChange', function(event, id, value) {
         if ($('#ads-filter').attr('action') == '/cars/all') {
-            var params = $('#ads-filter').attr('data-params');
+            var params = filterParams('#ads-filter');
             if (params.indexOf('brand') !== -1 && params.indexOf('auto_model') !== -1) {
                 $('#select-list').empty();
             }
