@@ -39,7 +39,7 @@ if ($request->get('generation')) {
 <section class="filters col-xs-12" id="filters">
     <h1 class="title col-xs-12"><?= $h1 ?></h1>
                             
-    <?php $form = ActiveForm::begin(['id' => 'ads-filter', 'method' => 'get', 'action' => Url::to(['cars/all']), 'options' => ['data-params' => http_build_query(Yii::$app->request->queryParams)]]) ?>
+    <?php $form = ActiveForm::begin(['id' => 'ads-filter', 'method' => 'get', 'action' => Url::to(['cars/all'])]) ?>
                             
         <div class="filters-wrapper col-xs-12">
             <div class="filters-group col-xs-4">

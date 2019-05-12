@@ -50,41 +50,37 @@
         event.preventDefault();
         
         $('#auto_model').val($(this).attr('href')).trigger('change.select2').trigger('select2:select');
+        filterCount(filterParams('#ads-filter'));
         $('#select-list').empty();
         $('.all-filters-anchor').trigger('click');
     });
     
     // Вывод кнопки и удаление списков зависимо от к-тва результатов фильтра
     $('#ads-filter select, #ads-filter input, #locations').on('change', function () {
-        filterCount();
+        filterCount(filterParams('#ads-filter'));
     });
     
-    function filterCount()
+    function filterCount(params)
     {
-        if ($('#ads-filter').length) {
-            var params = filterParams('#ads-filter');
-            
-            if (params && params != $('#ads-filter').attr('data-params')) {
-                $('#ads-filter').attr('data-params', params);
-                $.ajaxSetup({async: false});
-                $.post('/filter/ads-count', {params: params}, function(data) {
-                    if (data === 0) {
-                        $('#ads-filter .blue-btn').hide();
-                        if (!$('.btn-wrapper .empty').length) {
-                            $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
-                        }
-                        $('#select-list').empty();
-                        } else {
-                        if ($('.btn-wrapper .empty').length) {
-                            $('.btn-wrapper .empty').remove();
-                        }
-                        if ($('#ads-filter .blue-btn').is(':hidden')) {
-                            $('#ads-filter .blue-btn').show();
-                        }
-                        $('#ads-filter .blue-btn').html(data);                  
+        if ($('#ads-filter').length && params) {
+            $.ajaxSetup({async: false});
+            $.post('/filter/ads-count', {params: params}, function(data) {
+                if (data === 0) {
+                    $('#ads-filter .blue-btn').hide();
+                    if (!$('.btn-wrapper .empty').length) {
+                        $('.btn-wrapper').append('<span class="empty">Ничего не найдено</span>');
                     }
-                });
-            }
+                    $('#select-list').empty();
+                } else {
+                    if ($('.btn-wrapper .empty').length) {
+                        $('.btn-wrapper .empty').remove();
+                    }
+                    if ($('#ads-filter .blue-btn').is(':hidden')) {
+                        $('#ads-filter .blue-btn').show();
+                    }
+                    $('#ads-filter .blue-btn').html(data);                  
+                }
+            });
         }
     }
     
@@ -92,6 +88,8 @@
     $('#auto_model').on('depdrop:afterChange', function(event, id, value) {
         if ($('#ads-filter').attr('action') == '/cars/all') {
             var params = filterParams('#ads-filter');
+            
+            filterCount(params);
             if (params.indexOf('brand') !== -1 && params.indexOf('auto_model') !== -1) {
                 $('#select-list').empty();
             }
@@ -102,7 +100,6 @@
                         $('.car-logos').remove();
                         $('#select-list').html(data);
                         $('#select-list').show();
-                        filterCount();
                     }
                 });
             }
